@@ -1,0 +1,72 @@
+generated: '2026-08-01'
+method: derived
+source: >-
+  openapi/gumgum-contextual-api-openapi.yml (itself transcribed from the GumGum Contextual
+  Documentation Center), plus live unauthenticated probes of https://verity-api.gumgum.com on
+  2026-08-01 that returned the real error envelope.
+format: vendor-specific
+rfc9457: false
+envelope:
+  content_type: application/json
+  shape: '{"message": "<string>"}'
+  evidence: >-
+    Observed live on 2026-08-01: GET https://verity-api.gumgum.com/page/classify with no API key
+    returns HTTP 403 {"message":"Forbidden"}; GET https://verity-api.gumgum.com/openapi.json (an
+    unmatched path) returns HTTP 403 {"message":"Missing Authentication Token"}. This is the AWS
+    API Gateway error envelope, and GumGum does not wrap it in a richer problem document.
+problems:
+  - status: 403
+    title: Forbidden
+    message: Forbidden
+    meaning: >-
+      The request reached a real GumGum Contextual path but carried no valid X-api-key header.
+    remediation: Send a valid API key in the X-api-key request header.
+    verified: live-probe
+    source_operation: openapi/gumgum-contextual-api-openapi.yml#classifyPage
+  - status: 403
+    title: Missing Authentication Token
+    message: Missing Authentication Token
+    meaning: >-
+      The requested path does not exist on the API Gateway deployment. Despite the wording this is
+      the standard AWS API Gateway response for an unmatched route, not an auth failure — a
+      misrouted request is indistinguishable from an unauthenticated one at this layer.
+    remediation: Check the path and HTTP method against the API Reference.
+    verified: live-probe
+  - status: 404
+    title: Not found
+    meaning: >-
+      Documented on the Video API as "results are not yet available or the UUID is invalid". A 404
+      on a result endpoint is therefore an expected polling state, not necessarily an error.
+    remediation: >-
+      Poll /{asset}/classification/{uuid}/status until the status reports the analysis has been
+      processed, or supply a callback URL instead of polling.
+    source_operation: openapi/gumgum-contextual-api-openapi.yml#getVideoClassification
+    documented_at: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712029924
+  - status: 500
+    title: Internal server error
+    meaning: Documented on the Video API as an internal server error.
+    remediation: Retry; if persistent, check the Verity Status Page and contact GumGum Partner Support.
+    source_operation: openapi/gumgum-contextual-api-openapi.yml#submitVideoClassification
+    documented_at: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712029924
+success_states_that_are_not_errors:
+  - status: 202
+    meaning: Asset accepted for classification; a uuid is returned for later retrieval.
+  - status: 200
+    field: status
+    values: [INITIATED, PROCESSED]
+    meaning: >-
+      The Page API returns 200 with status INITIATED while analysis is still running; callers must
+      inspect the body's status/dataAvailable fields rather than relying on the HTTP status alone.
+application_status_messages:
+  documented: true
+  enumerated_here: false
+  note: >-
+    GumGum publishes a separate "Application Status Messages" reference page per content type
+    (Page, Video, Intravideo, Image, Text) inside the Documentation Center, and an "HTTP Response
+    Codes" page. Those pages were not machine-readable at harvest time, so their status strings are
+    deliberately not transcribed here rather than guessed.
+  references:
+    - https://gumgum.jira.com/wiki/spaces/VDC/pages/1712030855
+    - https://gumgum.jira.com/wiki/spaces/VDC/pages/1780285512
+    - https://gumgum.jira.com/wiki/spaces/VDC/pages/1780187188
+    - https://gumgum.jira.com/wiki/spaces/VDC/pages/1780187198

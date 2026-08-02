@@ -1,23 +1,153 @@
 aid: gumgum
 name: GumGum
-description: 'GumGum is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  GumGum is a Santa Monica-based advertising technology company, founded in 2008, that sells
+  contextual, CTV/online-video and high-impact display advertising built on its own content
+  intelligence. Its GumGum Contextual platform (formerly Verity) uses in-house computer vision and
+  natural language processing to read the text, images, video and audio of a page or asset before
+  the bid, returning IAB Content Taxonomy classifications (v1, v2 and v3), extracted keywords,
+  named entities, brand-safety and suitability threats, and sentiment. That analysis is exposed to
+  publishers, DSPs, agencies and advertisers as a server-to-server REST API at
+  verity-api.gumgum.com with separate Page, Video, Intravideo, Image and Text surfaces, plus an
+  asynchronous webhook callback for delivering completed classifications. GumGum also ships an
+  open-source Prebid.js bid adapter for header bidding, and holds Media Rating Council
+  accreditation for content-level classification across desktop, mobile web and CTV.
+image: https://cdn.prod.website-files.com/69eee532313396005f3a101b/6a332287fbe7e4cb30bb3ad4_gumgum-metadata-image.jpg
 url: https://raw.githubusercontent.com/api-evangelist/gumgum/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
-specificationVersion: '0.20'
+specificationVersion: '0.21'
 created: '2026-08-01'
 modified: '2026-08-01'
 tags:
-- Company
-apis: []
+  - advertising
+  - adtech
+  - contextual-advertising
+  - brand-safety
+  - content-classification
+  - computer-vision
+  - natural-language-processing
+  - video-analysis
+  - image-analysis
+  - connected-tv
+  - header-bidding
+  - programmatic-advertising
+  - iab-taxonomy
+  - content-moderation
 maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
-- FN: APIs.json
-  email: info@apis.io
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+  - FN: APIs.json
+    email: info@apis.io
+apis:
+  - name: GumGum Contextual API
+    description: >-
+      Server-to-server REST API returning content-level contextual classification, brand safety and
+      suitability, and sentiment analysis for web pages, video (including audio), individual video
+      frames, images and raw text. Analysis is asynchronous: submit an asset, receive a UUID, then
+      poll for the result or supply a callback URL for webhook delivery. Authenticated with an
+      X-api-key request header.
+    humanURL: https://gumgum.jira.com/wiki/spaces/VDC
+    baseURL: https://verity-api.gumgum.com
+    tags:
+      - contextual-advertising
+      - brand-safety
+      - content-classification
+      - computer-vision
+      - natural-language-processing
+      - video-analysis
+      - image-analysis
+      - iab-taxonomy
+    properties:
+      - type: OpenAPI
+        url: openapi/gumgum-contextual-api-openapi.yml
+      - type: Documentation
+        url: https://gumgum.jira.com/wiki/spaces/VDC
+      - type: APIReference
+        url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712030855
+      - type: GettingStarted
+        url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712095256
+      - type: Overlay
+        url: overlays/gumgum-contextual-api-overlay.yaml
+      - type: Webhooks
+        url: asyncapi/gumgum-contextual-webhooks.yml
+  - name: GumGum Prebid Header Bidding Endpoint
+    description: >-
+      GumGum's real-time bidding endpoint for header bidding, integrated through the open-source
+      Prebid.js gumgumBidAdapter (bidder code gumgum, alias gg, IAB GVL ID 61). Supports banner,
+      native and video media types. Bid requests are POSTed to the hbid/imp path by the adapter.
+    humanURL: https://docs.prebid.org/dev-docs/bidders/gumgum.html
+    baseURL: https://g2.gumgum.com
+    tags:
+      - header-bidding
+      - programmatic-advertising
+      - advertising
+      - real-time-bidding
+    properties:
+      - type: Documentation
+        url: https://docs.prebid.org/dev-docs/bidders/gumgum.html
+      - type: SourceCode
+        url: https://github.com/prebid/Prebid.js/blob/master/modules/gumgumBidAdapter.js
 common:
-- type: Website
-  url: https://forgeglobal.com/gumgum_stock/
+  - type: Website
+    url: https://gumgum.com/
+  - type: DeveloperPortal
+    url: https://gumgum.jira.com/wiki/spaces/VDC
+  - type: Documentation
+    url: https://gumgum.jira.com/wiki/spaces/VDC
+  - type: APIReference
+    url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712030855
+  - type: GettingStarted
+    url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712095256
+  - type: Support
+    url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1728217585
+  - type: Blog
+    url: https://gumgum.com/blog
+  - type: GitHubOrganization
+    url: https://github.com/gumgum
+  - type: Login
+    url: https://contextual.gumgum.com/
+  - type: TermsOfService
+    url: https://gumgum.com/terms-and-policies
+  - type: PrivacyPolicy
+    url: https://gumgum.com/privacy-policy
+  - type: StatusPage
+    url: https://status.contextual.gumgum.com
+  - type: ChangeLog
+    url: changelog/gumgum-changelog.yml
+  - type: Webhooks
+    url: asyncapi/gumgum-contextual-webhooks.yml
+  - type: Compliance
+    url: https://gumgum.com/accreditation
+  - type: LLMsTxt
+    url: llms/gumgum-llms.txt
+  - type: Authentication
+    url: authentication/gumgum-authentication.yml
+  - type: Conventions
+    url: conventions/gumgum-conventions.yml
+  - type: ErrorCatalog
+    url: errors/gumgum-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/gumgum-lifecycle.yml
+  - type: Conformance
+    url: conformance/gumgum-conformance.yml
+  - type: DataModel
+    url: data-model/gumgum-data-model.yml
+  - type: Packages
+    url: packages/gumgum-packages.yml
+  - type: Components
+    url: components/gumgum-components.yml
+  - type: DomainSecurity
+    url: security/gumgum-domain-security.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: AgenticAccess
+    url: agentic-access/gumgum-agentic-access.yml
+  - type: Arazzo
+    name: Classify a video and retrieve the result
+    url: arazzo/gumgum-classify-video.yml
+x-enrichment:
+  date: '2026-08-01'
+  status: enriched
+  artifacts_added: 23
+  pass: local-v1

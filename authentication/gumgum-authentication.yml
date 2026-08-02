@@ -1,0 +1,17 @@
+generated: '2026-08-01'
+method: derived
+source: openapi/gumgum-contextual-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: apiKeyHeader
+  type: apiKey
+  in: header
+  parameter: X-api-key
+  description: API key issued by GumGum, sent on every request as the X-api-key request header.
+    Documented at https://gumgum.jira.com/wiki/spaces/VDC/pages/1712095256.
+  sources:
+  - openapi/gumgum-contextual-api-openapi.yml

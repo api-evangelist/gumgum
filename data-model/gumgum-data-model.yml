@@ -1,0 +1,115 @@
+generated: '2026-08-01'
+method: derived
+source: >-
+  openapi/gumgum-contextual-api-openapi.yml (schemas + $ref graph), grounded in the GumGum
+  Contextual JSON Response Reference (https://gumgum.jira.com/wiki/spaces/VDC/pages/1724743813).
+note: >-
+  GumGum Contextual has no CRUD resource graph — it is a single-purpose classification service.
+  The data model is therefore a response document tree rooted at a Classification, not a set of
+  persisted, addressable entities with foreign keys. Relationships below describe composition
+  inside the response document.
+identifiers:
+  - name: uuid
+    type: string
+    scope: classification job
+    issued_by: GumGum
+    note: >-
+      The only identifier the API mints. Returned on submission, then used as the path segment on
+      every retrieval and status call across the video, intravideo, image and text surfaces.
+  - name: pageUrl
+    type: uri
+    scope: page classification
+    note: The Page API addresses work by URL rather than by uuid on submission.
+  - name: partnerVideoId
+    type: string
+    scope: caller-owned
+    note: Client's own video identifier, echoed for correlation. Not a GumGum key.
+  - name: publisherId
+    type: string
+    scope: caller-owned
+entities:
+  - name: Classification
+    schema: '#/components/schemas/Classification'
+    description: >-
+      The completed analysis document for any asset type. Carries dataAvailable, status, uuid,
+      processedAt, expiresAt, languageCode and the verityData payload.
+    surfaces: [video, intravideo, image, text]
+  - name: PageClassification
+    schema: '#/components/schemas/PageClassification'
+    description: Classification specialised for a web page; adds pageUrl.
+    extends: Classification
+    surfaces: [page]
+  - name: VerityData
+    schema: '#/components/schemas/VerityData'
+    description: >-
+      The contextual analysis payload — IAB taxonomy categories, named entities, keywords, the
+      brand-safety boolean, detected threats and sentiment scores.
+  - name: IABCategorySet
+    schema: '#/components/schemas/VerityData/properties/iab'
+    description: IAB Content Taxonomy classifications, split into v1, v2 and v3 category arrays.
+  - name: Threat
+    description: A detected brand-safety threat with a confidence level.
+  - name: Sentiment
+    description: An emotional-tone score for the analyzed content.
+  - name: Keyword
+    description: A keyword extracted from the analyzed content.
+  - name: NamedEntity
+    description: A named entity recognized in the analyzed content (added in the 2023-10-26 NER release).
+  - name: ClassificationAccepted
+    schema: '#/components/schemas/ClassificationAccepted'
+    description: Submission acknowledgement — uuid, url and acceptedAt.
+  - name: ClassificationStatus
+    schema: '#/components/schemas/ClassificationStatus'
+    description: Processing state of a job — uuid, status and dataAvailable.
+  - name: VideoClassificationRequest
+    schema: '#/components/schemas/VideoClassificationRequest'
+    description: >-
+      Video submission body — url plus optional title, description, languageCode, partnerVideoId,
+      publisherId and callbackUrl.
+relationships:
+  - from: PageClassification
+    to: Classification
+    kind: extends
+    via: allOf
+  - from: Classification
+    to: VerityData
+    kind: has_one
+    via: verityData
+  - from: VerityData
+    to: IABCategorySet
+    kind: has_one
+    via: iab
+  - from: VerityData
+    to: Keyword
+    kind: has_many
+    via: keywords
+  - from: VerityData
+    to: Threat
+    kind: has_many
+    via: threats
+  - from: VerityData
+    to: Sentiment
+    kind: has_many
+    via: sentiments
+  - from: VerityData
+    to: NamedEntity
+    kind: has_many
+    via: ner
+  - from: ClassificationAccepted
+    to: Classification
+    kind: resolves_to
+    via: uuid
+  - from: ClassificationStatus
+    to: Classification
+    kind: describes
+    via: uuid
+  - from: VideoClassificationRequest
+    to: ClassificationAccepted
+    kind: produces
+    via: POST /video/classification
+lifecycle:
+  states: [INITIATED, PROCESSED]
+  note: >-
+    Job state is carried on the status field and mirrored by the dataAvailable boolean. Results
+    expire at expiresAt; GumGum returns cached results for a previously analyzed asset unless
+    ignoreCache is set (Page API).

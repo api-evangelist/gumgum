@@ -1,0 +1,87 @@
+generated: '2026-08-01'
+method: probed
+source: live GET probes of the /.well-known/ surface on every GumGum host in apis.yml and openapi/servers[]
+note: >-
+  No GumGum-operated host publishes a /.well-known/ discovery document. The API host
+  (verity-api.gumgum.com) is an AWS API Gateway deployment that answers every unmatched path with
+  HTTP 403 {"message":"Missing Authentication Token"}, so no /.well-known/ path resolves there.
+  gumgum.com (Webflow) returns 404 for every probed path. The two security.txt documents that DO
+  return 200 are served by third-party SaaS vendors on GumGum subdomains — Atlassian Statuspage
+  (status.contextual.gumgum.com) and Atlassian Confluence Cloud (gumgum.jira.com) — and are
+  Atlassian's own RFC 9116 policies, not GumGum's. They are recorded here as evidence but are
+  deliberately NOT saved as a GumGum security.txt and NOT wired as a SecurityTxt or Security
+  pointer, because they do not represent a GumGum vulnerability-disclosure program.
+hosts:
+  - host: https://gumgum.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /llms.txt
+        status: 200
+        file: ../llms/gumgum-llms.txt
+      - path: /llms-full.txt
+        status: 404
+  - host: https://verity-api.gumgum.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 403
+      - path: /.well-known/openid-configuration
+        status: 403
+      - path: /.well-known/oauth-authorization-server
+        status: 403
+      - path: /.well-known/api-catalog
+        status: 403
+      - path: /.well-known/agent-card.json
+        status: 403
+      - path: /.well-known/agent.json
+        status: 403
+  - host: https://contextual.gumgum.com
+    note: Verity Portal (also served at verity.gumgum.com); S3-backed, returns AccessDenied for unmatched paths.
+    documents:
+      - path: /.well-known/agent-card.json
+        status: 403
+      - path: /.well-known/agent.json
+        status: 403
+      - path: /.well-known/security.txt
+        status: 403
+  - host: https://status.contextual.gumgum.com
+    vendor: Atlassian Statuspage
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        first_party: false
+        note: Atlassian's RFC 9116 policy, served by Statuspage on a GumGum subdomain. Not GumGum's.
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://gumgum.jira.com
+    vendor: Atlassian Confluence Cloud (GumGum Contextual Documentation Center)
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        first_party: false
+        note: Atlassian's RFC 9116 policy, served by Confluence Cloud. Not GumGum's.
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+summary:
+  first_party_documents: 0
+  agent_card: false
+  security_txt: false
+  openid_configuration: false
+  api_catalog: false
+  llms_txt: true

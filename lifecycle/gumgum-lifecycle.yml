@@ -1,0 +1,60 @@
+generated: '2026-08-01'
+method: searched
+source: >-
+  GumGum Contextual Documentation Center — Monitor Service Status
+  (https://gumgum.jira.com/wiki/spaces/VDC/pages/1712095462), Product Updates (pages/1783431248),
+  API Reference (pages/1712030855), Partner Support (pages/1728217585) — plus a live fetch of the
+  Verity Status Page summary API on 2026-08-01.
+versioning:
+  scheme: uri-path
+  current: unversioned (Page, Video, Image, Text) / v2 (Intravideo)
+  detail: >-
+    Only the Intravideo surface carries a version segment (/v2/video/classification). The Page,
+    Video, Image and Text surfaces are unversioned paths. No version request header, no date-based
+    pinning, and no published version-support or end-of-life policy.
+  docs: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712030855
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    No deprecation policy, no RFC 8594 Sunset/Deprecation header support, and no removal notice
+    process are documented anywhere in the Documentation Center. The v1 /video/classification
+    surface still coexists with the v2 Intravideo surface with no stated retirement date.
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    No public SLA or uptime target. Availability commitments sit in the partner contract; the
+    public artifact is the status page.
+status_page:
+  url: https://status.contextual.gumgum.com
+  alt_url: https://status.verity.gumgum.com/
+  provider: Atlassian Statuspage
+  name: Verity Status Page
+  api: https://status.contextual.gumgum.com/api/v2/summary.json
+  components:
+    - name: Verity Api
+      description: Requests for Verity API
+      status_at_harvest: operational
+    - name: Verity Portal
+      status_at_harvest: operational
+  open_incidents_at_harvest: 0
+  verified: '2026-08-01'
+  docs: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712095462
+release_notes:
+  url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1783431248
+  name: Product Updates
+  cadence: irregular
+  artifact: changelog/gumgum-changelog.yml
+support:
+  url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1728217585
+  email: support@gumgum.com
+  note: Partner Support is the documented channel; there is no public issue tracker or community forum.
+deprecated_operations: []
+data_retention:
+  field: expiresAt
+  note: >-
+    Classification results carry an expiresAt timestamp; GumGum documents data-storage policy
+    alongside the API Reference. No retention duration is stated publicly.

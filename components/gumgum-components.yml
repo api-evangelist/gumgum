@@ -1,0 +1,52 @@
+generated: '2026-08-01'
+method: searched
+source: >-
+  npm registry metadata for @gumgum/resonance, gumdrops and gg-ez-vp, plus the public GumGum GitHub
+  organization (github.com/gumgum/gumdrops, github.com/gumgum/design-system, github.com/gumgum/gg-ez-vp)
+  — probed 2026-08-01.
+note: >-
+  These are GumGum's own front-end component libraries, published publicly to npm and used to build
+  GumGum's product surfaces (including the Verity/Contextual Portal). They are client-side UI
+  libraries, not embeddable widgets that render GumGum data for third parties, and they are not
+  clients for the Contextual API. GumGum publishes no hosted/embeddable analysis widget.
+families:
+  - name: Resonance
+    kind: react-design-system
+    status: current
+    loader: "@gumgum/resonance"
+    npm: https://www.npmjs.com/package/@gumgum/resonance
+    repository: https://github.com/GumGum-Inc/resonance
+    version: 0.15.1
+    description: >-
+      GumGum's current React design system — accessible components, design tokens and theming.
+  - name: Gumdrops
+    kind: react-component-library
+    status: superseded-by-resonance
+    loader: gumdrops
+    npm: https://www.npmjs.com/package/gumdrops
+    repository: https://github.com/gumgum/gumdrops
+    version: 1.18.1
+    description: GumGum's React reusable component library, the predecessor of Resonance.
+  - name: GumGum Design System
+    kind: css-design-system
+    status: archived
+    repository: https://github.com/gumgum/design-system
+    description: GumGum's CSS design system, the styling layer the React libraries were built against.
+  - name: gg-ez-vp
+    kind: video-player
+    status: unmaintained
+    loader: gg-ez-vp
+    npm: https://www.npmjs.com/package/gg-ez-vp
+    repository: https://github.com/gumgum/gg-ez-vp
+    version: 1.9.0
+    description: >-
+      Minimal-setup HTML5 video player with an imperative JS API, built for GumGum's in-page video
+      ad formats.
+embedded_surfaces:
+  - name: GumGum Contextual Portal
+    url: https://contextual.gumgum.com/
+    alt_url: https://verity.gumgum.com/
+    kind: hosted-dashboard
+    description: >-
+      GumGum's hosted customer portal for the Contextual product; listed as a monitored component
+      ("Verity Portal") on the Verity Status Page. Login-gated, not embeddable.

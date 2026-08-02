@@ -1,0 +1,96 @@
+generated: '2026-08-01'
+method: searched
+source: >-
+  npm registry search and per-package metadata (registry.npmjs.org), plus the public GumGum GitHub
+  organization (github.com/gumgum) — probed 2026-08-01.
+note: >-
+  GumGum publishes NO client SDK for the GumGum Contextual API. The Contextual API is documented as
+  a plain server-to-server HTTPS integration authenticated with an X-api-key header, and the docs
+  offer no first-party client library in any language. The first-party packages GumGum does publish
+  are front-end/UI libraries used to build its own products, plus a long-unmaintained iOS ad-serving
+  SDK. Because none of them is a client for the Contextual API, no `SDKs` pointer is wired in
+  apis.yml — doing so would credit an API-client surface that does not exist. The UI libraries are
+  also catalogued in components/gumgum-components.yml.
+packages:
+  - language: javascript
+    registry: npm
+    name: "@gumgum/resonance"
+    url: https://www.npmjs.com/package/@gumgum/resonance
+    install: npm install @gumgum/resonance
+    version: 0.15.1
+    published: '2026-05-07'
+    repository: https://github.com/GumGum-Inc/resonance
+    official: true
+    kind: ui-components
+    description: GumGum's React design system — accessible components, design tokens, and theming.
+  - language: javascript
+    registry: npm
+    name: gumdrops
+    url: https://www.npmjs.com/package/gumdrops
+    install: npm install gumdrops
+    version: 1.18.1
+    published: '2025-07-15'
+    repository: https://github.com/gumgum/gumdrops
+    official: true
+    kind: ui-components
+    description: GumGum's React reusable component library (the predecessor of Resonance).
+  - language: javascript
+    registry: npm
+    name: gg-ez-vp
+    url: https://www.npmjs.com/package/gg-ez-vp
+    install: npm install gg-ez-vp
+    version: 1.9.0
+    published: '2020-08-24'
+    repository: https://github.com/gumgum/gg-ez-vp
+    official: true
+    kind: video-player
+    status: unmaintained
+    description: GumGum EZ video player — a minimal-setup video player with a small imperative API.
+  - language: javascript
+    registry: npm
+    name: "@gumgum/react-script-tag"
+    url: https://www.npmjs.com/package/@gumgum/react-script-tag
+    install: npm install @gumgum/react-script-tag
+    version: 0.0.3
+    published: '2018-07-20'
+    repository: https://github.com/gumgum/react-script-tag
+    official: true
+    kind: utility
+    status: unmaintained
+    description: A React replacement for the native script tag, for loading third-party scripts.
+  - language: swift-objc
+    registry: github
+    name: gumgum-ios-sdk
+    url: https://github.com/gumgum/gumgum-ios-sdk
+    official: true
+    kind: ad-serving-sdk
+    status: unmaintained
+    last_commit: '2015-04-27'
+    description: >-
+      GumGum's iOS SDK for serving ads in native iOS apps. Not published to a package registry and
+      not updated since 2015; recorded for completeness, not as a supported integration path.
+  - language: javascript
+    registry: github
+    name: gumgumBidAdapter
+    url: https://github.com/prebid/Prebid.js/blob/master/modules/gumgumBidAdapter.js
+    install: "Prebid.js build: gulp build --modules=gumgumBidAdapter"
+    official: true
+    kind: bid-adapter
+    description: >-
+      GumGum's header-bidding adapter, maintained by GumGum inside the open-source Prebid.js
+      project (bidder code `gumgum`, alias `gg`, IAB GVL ID 61; banner, native and video).
+      This is the only first-party library that actually talks to a GumGum API endpoint.
+not_found:
+  registries_probed:
+    - npm
+    - pypi
+    - maven-central
+    - nuget
+    - pkg.go.dev
+    - rubygems
+    - packagist
+    - crates.io
+  result: >-
+    No first-party GumGum client library for the Contextual API on any registry. npm results named
+    "gumgum" (an Elasticsearch query builder) and several *-design-system packages published from
+    personal or Bitbucket accounts were checked and excluded as not first-party or not current.

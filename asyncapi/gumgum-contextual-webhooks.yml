@@ -1,0 +1,64 @@
+generated: '2026-08-01'
+method: searched
+source: >-
+  GumGum Contextual Documentation Center — Get Started Page API
+  (https://gumgum.jira.com/wiki/spaces/VDC/pages/1712095256) and Get Started Video API
+  (https://gumgum.jira.com/wiki/spaces/VDC/pages/1712029924).
+spec_type: Webhooks
+asyncapi_published: false
+note: >-
+  GumGum publishes no AsyncAPI document, and none was fabricated here. It does document a real
+  webhook surface: every Contextual API surface accepts a caller-supplied callback URL, and GumGum
+  POSTs the completed classification to it when analysis finishes — the documented alternative to
+  polling. This artifact captures that webhook catalog. The payload delivered to the callback is
+  the same classification document the GET result endpoints return, described in
+  openapi/gumgum-contextual-api-openapi.yml (Classification / PageClassification / VerityData).
+direction: outbound
+transport: https
+delivery: >-
+  Caller registers the destination per request (there is no webhook-endpoint management console,
+  no subscription resource and no event-type subscription model). GumGum POSTs the finished
+  analysis once processing completes.
+security:
+  signing: not documented
+  verification: not documented
+  note: >-
+    No webhook signature header, shared secret, or replay-protection mechanism is documented.
+    Consumers should treat the callback as unauthenticated and re-fetch the result by uuid from
+    the GET endpoint if provenance matters.
+retries:
+  documented: false
+webhooks:
+  - name: page.classification.completed
+    trigger: A page classification submitted via GET /page/classify with callBackUrl completes.
+    registration:
+      surface: Page API
+      mechanism: query parameter
+      parameter: callBackUrl
+      operation: openapi/gumgum-contextual-api-openapi.yml#classifyPage
+    payload_schema: openapi/gumgum-contextual-api-openapi.yml#/components/schemas/PageClassification
+  - name: video.classification.completed
+    trigger: A video classification submitted via POST /video/classification with callbackUrl completes.
+    registration:
+      surface: Video API
+      mechanism: request body field
+      parameter: callbackUrl
+      operation: openapi/gumgum-contextual-api-openapi.yml#submitVideoClassification
+    payload_schema: openapi/gumgum-contextual-api-openapi.yml#/components/schemas/Classification
+  - name: intravideo.classification.completed
+    trigger: >-
+      An intravideo (frame-level) classification submitted via POST /v2/video/classification with
+      callbackUrl completes.
+    registration:
+      surface: Intravideo API (v2)
+      mechanism: request body field
+      parameter: callbackUrl
+      operation: openapi/gumgum-contextual-api-openapi.yml#submitIntravideoClassification
+    payload_schema: openapi/gumgum-contextual-api-openapi.yml#/components/schemas/Classification
+coverage:
+  documented_webhooks: 3
+  surfaces_with_documented_callback: [page, video, intravideo]
+  surfaces_without_documented_callback: [image, text]
+  note: >-
+    The Image and Text API reference pages describe the submit/poll pattern but do not document a
+    callback parameter, so no webhook is asserted for them.

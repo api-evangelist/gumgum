@@ -1,0 +1,106 @@
+generated: '2026-08-01'
+method: searched
+source: >-
+  GumGum Contextual Documentation Center — Get Started Page API
+  (https://gumgum.jira.com/wiki/spaces/VDC/pages/1712095256), Get Started Video API
+  (pages/1712029924), API Reference (pages/1712030855), Page API Reference (pages/1780285512),
+  JSON Response Reference (pages/1724743813) — plus live probing of https://verity-api.gumgum.com
+  on 2026-08-01 and the generated openapi/gumgum-contextual-api-openapi.yml.
+authentication:
+  style: api-key-header
+  header: X-api-key
+  scheme_count: 1
+  oauth: false
+  notes: >-
+    A single API key, issued by GumGum during partner onboarding, is sent as the X-api-key request
+    header on every call. There is no OAuth, no bearer token, no scope surface and no self-serve key
+    issuance — keys come from the account/partner-support flow.
+  artifact: authentication/gumgum-authentication.yml
+request_response:
+  protocol: HTTPS only
+  content_type: application/json; charset=UTF-8
+  page_api_style: >-
+    GET with query parameters (pageUrl, callBackUrl, ignoreCache) — no request body.
+  asset_api_style: >-
+    POST a JSON body to /{asset}/classification, then GET /{asset}/classification/{uuid} for the
+    result and /{asset}/classification/{uuid}/status for the state.
+asynchrony:
+  model: submit-then-poll-or-callback
+  description: >-
+    Every surface is asynchronous. A submission returns a service-generated uuid (and, for
+    video/image/text, acceptedAt) with HTTP 202. The caller then either polls the result endpoint
+    until status becomes PROCESSED / dataAvailable is true, or supplies a callback URL and receives
+    the completed analysis as a webhook POST.
+  job_identifier: uuid
+  completion_signals:
+    - field: status
+      values_documented: [INITIATED, PROCESSED]
+      note: >-
+        GumGum documents per-content-type "Application Status Messages" reference pages
+        (Page, Video, Intravideo, Image, Text) rather than one shared enumeration.
+    - field: dataAvailable
+      type: boolean
+  callback:
+    page_api_param: callBackUrl
+    asset_api_field: callbackUrl
+    note: The parameter is spelled callBackUrl on the Page API and callbackUrl on the asset APIs.
+    artifact: asyncapi/gumgum-contextual-webhooks.yml
+idempotency:
+  supported: false
+  header: null
+  evidence: >-
+    GumGum documents no idempotency key, no request-deduplication header and no retry-safety
+    contract on any Contextual API surface. The closest behaviour is result caching: a repeat
+    classification request for the same asset returns the stored result from the GumGum Contextual
+    database rather than reprocessing, and the Page API's ignoreCache flag exists specifically to
+    override that. That is response caching, not idempotency, so no Idempotency pointer is wired.
+caching:
+  behaviour: >-
+    GumGum Contextual first checks whether results for the requested URL are already in its
+    database and, when they are, returns them directly.
+  override_param: ignoreCache
+  override_scope: Page API
+  expiry_field: expiresAt
+pagination:
+  supported: false
+  note: Every operation addresses a single asset by URL or uuid; there are no collection endpoints.
+field_expansion:
+  supported: false
+metadata:
+  supported: true
+  note: >-
+    The video submission body accepts client-owned correlation fields — partnerVideoId (the
+    client's unique video identifier) and publisherId — plus title, description and languageCode
+    that ride along with the asset.
+tracing:
+  request_id_header: null
+  correlation_id: uuid
+  note: >-
+    No request-id response header is documented. Correlation is by the service-generated uuid
+    returned on submission and echoed on every result and status response.
+versioning:
+  scheme: uri-path
+  detail: >-
+    Only the Intravideo surface is versioned in the path (/v2/video/classification). The Page,
+    Video, Image and Text surfaces are unversioned. There is no version header, no date-based
+    version pinning and no published version-support policy.
+  artifact: lifecycle/gumgum-lifecycle.yml
+errors:
+  envelope: '{"message": "<human readable message>"}'
+  format: vendor-specific
+  rfc9457: false
+  documented_codes: [202, 200, 403, 404, 500]
+  artifact: errors/gumgum-problem-types.yml
+rate_limiting:
+  documented: false
+  headers: null
+  note: >-
+    No rate limit, quota or throttling headers are documented. Volume is governed commercially by
+    the partner contract; the service is described as handling roughly 2.5 billion unique monthly
+    classification requests.
+cross_links:
+  authentication: authentication/gumgum-authentication.yml
+  errors: errors/gumgum-problem-types.yml
+  lifecycle: lifecycle/gumgum-lifecycle.yml
+  webhooks: asyncapi/gumgum-contextual-webhooks.yml
+  data_model: data-model/gumgum-data-model.yml

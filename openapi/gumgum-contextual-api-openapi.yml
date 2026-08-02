@@ -1,0 +1,606 @@
+openapi: 3.1.0
+info:
+  title: GumGum Contextual API
+  version: '1.0'
+  x-generated: '2026-08-01'
+  x-method: generated
+  x-source: >-
+    Generated faithfully from the published GumGum Contextual Documentation Center
+    (https://gumgum.jira.com/wiki/spaces/VDC) — specifically the Get Started - Page API
+    (pages/1712095256), Get Started - Video API (pages/1712029924), API Reference
+    (pages/1712030855), Page API Reference (pages/1780285512), Image API Reference
+    (pages/1780187188), Text API Reference (pages/1780187198) and JSON Response Reference
+    (pages/1724743813) pages. GumGum does not publish an OpenAPI description. Every path,
+    method, parameter, response field, and status code below is transcribed from those pages.
+    The host was verified by probing it on 2026-08-01 (GET https://verity-api.gumgum.com/page/classify
+    with no API key returns HTTP 403 with the JSON body {"message":"Forbidden"}; unmatched
+    paths return HTTP 403 {"message":"Missing Authentication Token"} — the AWS API Gateway
+    signature). No operation, field, or value was invented; where the documentation does not
+    enumerate a request body's fields, the schema is left open and annotated rather than guessed.
+  description: >-
+    The GumGum Contextual API (formerly Verity) returns content-level contextual classification,
+    brand safety/suitability and sentiment analysis for web pages, video (including audio),
+    individual video frames (intravideo), images and raw text. Analysis is asynchronous: a
+    request is submitted, the service returns a UUID, and results are retrieved either by
+    polling or by supplying a callback URL that GumGum POSTs the finished analysis to. Results
+    include IAB Content Taxonomy categories (v1, v2 and v3), extracted keywords, named entities,
+    a brand-safety boolean, detected threats and sentiment scores.
+  contact:
+    name: GumGum Partner Support
+    url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1728217585
+    email: support@gumgum.com
+  termsOfService: https://gumgum.com/terms-and-policies
+  x-documentation: https://gumgum.jira.com/wiki/spaces/VDC
+servers:
+  - url: https://verity-api.gumgum.com
+    description: Production GumGum Contextual API host
+security:
+  - apiKeyHeader: []
+tags:
+  - name: Page
+    description: Contextual classification and brand-safety analysis of a web page URL.
+  - name: Video
+    description: Contextual classification and brand-safety analysis of a video asset, including its audio track.
+  - name: Intravideo
+    description: Frame-level (intravideo) classification of a video asset. Version 2 of the video classification surface.
+  - name: Image
+    description: Contextual classification, keyword and threat analysis of a single image.
+  - name: Text
+    description: Contextual classification, keyword and brand-safety analysis of a raw block of text.
+paths:
+  /page/classify:
+    get:
+      operationId: classifyPage
+      summary: Classify a web page
+      description: >-
+        Submit a properly formed web page URL for contextual and brand-safety analysis. GumGum
+        Contextual first checks whether results for the URL are already in its database and, if so,
+        returns them. Otherwise the request is accepted with status INITIATED and the caller either
+        polls this endpoint until status becomes PROCESSED, or supplies callBackUrl to have the
+        finished analysis delivered to a webhook endpoint.
+      tags:
+        - Page
+      parameters:
+        - name: pageUrl
+          in: query
+          required: true
+          description: The properly formed URL of the web page to classify.
+          schema:
+            type: string
+            format: uri
+        - name: callBackUrl
+          in: query
+          required: false
+          description: >-
+            Webhook endpoint GumGum Contextual POSTs the completed analysis to, as an alternative
+            to polling this endpoint.
+          schema:
+            type: string
+            format: uri
+        - name: ignoreCache
+          in: query
+          required: false
+          description: >-
+            Bypass stored response data and reprocess the page analysis request rather than
+            returning the cached result from the GumGum Contextual database.
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Analysis result, or an acknowledgement that analysis has been initiated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageClassification'
+        '403':
+          description: Missing or invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /video/classification:
+    post:
+      operationId: submitVideoClassification
+      summary: Submit a video for classification
+      description: >-
+        Submit a video asset for contextual, brand-safety and sentiment analysis. The service
+        responds 202 with a UUID that identifies the classification job.
+      tags:
+        - Video
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VideoClassificationRequest'
+      responses:
+        '202':
+          description: Video accepted for classification.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationAccepted'
+        '403':
+          description: Missing or invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /video/classification/{uuid}:
+    get:
+      operationId: getVideoClassification
+      summary: Retrieve video classification results
+      description: Retrieve the completed contextual analysis for a previously submitted video.
+      tags:
+        - Video
+      parameters:
+        - $ref: '#/components/parameters/uuid'
+      responses:
+        '200':
+          description: Completed video classification.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Classification'
+        '404':
+          description: Results are not yet available, or the UUID is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /video/classification/{uuid}/status:
+    get:
+      operationId: getVideoClassificationStatus
+      summary: Check video classification status
+      description: Check the processing status of a submitted video classification job.
+      tags:
+        - Video
+      parameters:
+        - $ref: '#/components/parameters/uuid'
+      responses:
+        '200':
+          description: Current processing status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationStatus'
+        '404':
+          description: Status not available, or the UUID is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v2/video/classification:
+    post:
+      operationId: submitIntravideoClassification
+      summary: Submit a video for intravideo (frame-level) classification
+      description: >-
+        Version 2 of the video classification surface, documented as the Intravideo API. Submits a
+        video asset for frame-level contextual and brand-safety analysis.
+      tags:
+        - Intravideo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VideoClassificationRequest'
+      responses:
+        '202':
+          description: Video accepted for intravideo classification.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationAccepted'
+        '403':
+          description: Missing or invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v2/video/classification/{uuid}:
+    get:
+      operationId: getIntravideoClassification
+      summary: Retrieve intravideo classification results
+      description: Retrieve the completed frame-level analysis for a previously submitted video.
+      tags:
+        - Intravideo
+      parameters:
+        - $ref: '#/components/parameters/uuid'
+      responses:
+        '200':
+          description: Completed intravideo classification.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Classification'
+        '404':
+          description: Results are not yet available, or the UUID is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v2/video/classification/{uuid}/status:
+    get:
+      operationId: getIntravideoClassificationStatus
+      summary: Check intravideo classification status
+      description: Check the processing status of a submitted intravideo classification job.
+      tags:
+        - Intravideo
+      parameters:
+        - $ref: '#/components/parameters/uuid'
+      responses:
+        '200':
+          description: Current processing status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationStatus'
+        '404':
+          description: Status not available, or the UUID is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /image/classification:
+    post:
+      operationId: submitImageClassification
+      summary: Submit an image for classification
+      description: >-
+        Initiate a new image analysis. The documentation states the request specifies the URL of
+        the image to be analyzed; the response carries brand-safety, keyword and threat
+        categorization data.
+      tags:
+        - Image
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageClassificationRequest'
+      responses:
+        '202':
+          description: Image accepted for classification.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationAccepted'
+        '403':
+          description: Missing or invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /image/classification/{uuid}:
+    get:
+      operationId: getImageClassification
+      summary: Retrieve image classification results
+      description: Retrieve the completed image analysis for a previously submitted image.
+      tags:
+        - Image
+      parameters:
+        - $ref: '#/components/parameters/uuid'
+      responses:
+        '200':
+          description: Completed image classification.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Classification'
+        '404':
+          description: Results are not yet available, or the UUID is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /image/classification/{uuid}/status:
+    get:
+      operationId: getImageClassificationStatus
+      summary: Check image classification status
+      description: Retrieve the processing status of a submitted image analysis request.
+      tags:
+        - Image
+      parameters:
+        - $ref: '#/components/parameters/uuid'
+      responses:
+        '200':
+          description: Current processing status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationStatus'
+        '404':
+          description: Status not available, or the UUID is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /text/classification:
+    post:
+      operationId: submitTextClassification
+      summary: Submit text for classification
+      description: >-
+        Initiate a new text analysis request. The response carries complete brand-safety, keyword
+        and categorization analysis data for the analyzed text.
+      tags:
+        - Text
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextClassificationRequest'
+      responses:
+        '202':
+          description: Text accepted for classification.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationAccepted'
+        '403':
+          description: Missing or invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /text/classification/{uuid}:
+    get:
+      operationId: getTextClassification
+      summary: Retrieve text classification results
+      description: Return the analyzed text results for a previously submitted request.
+      tags:
+        - Text
+      parameters:
+        - $ref: '#/components/parameters/uuid'
+      responses:
+        '200':
+          description: Completed text classification.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Classification'
+        '404':
+          description: Results are not yet available, or the UUID is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /text/classification/{uuid}/status:
+    get:
+      operationId: getTextClassificationStatus
+      summary: Check text classification status
+      description: Return the status of the text analysis.
+      tags:
+        - Text
+      parameters:
+        - $ref: '#/components/parameters/uuid'
+      responses:
+        '200':
+          description: Current processing status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationStatus'
+        '404':
+          description: Status not available, or the UUID is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-api-key
+      description: >-
+        API key issued by GumGum, sent on every request as the X-api-key request header.
+        Documented at https://gumgum.jira.com/wiki/spaces/VDC/pages/1712095256.
+  parameters:
+    uuid:
+      name: uuid
+      in: path
+      required: true
+      description: The unique identifier the classification service generated for the submitted asset.
+      schema:
+        type: string
+  schemas:
+    Error:
+      type: object
+      description: >-
+        Error envelope observed on the production host on 2026-08-01 — for example
+        {"message":"Forbidden"} for an unauthenticated call to a real path and
+        {"message":"Missing Authentication Token"} for an unmatched path.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+      required:
+        - message
+    ClassificationAccepted:
+      type: object
+      description: Acknowledgement that an asset has been accepted for classification.
+      properties:
+        uuid:
+          type: string
+          description: Unique identifier generated by the service for this classification job.
+        url:
+          type: string
+          format: uri
+          description: The asset URL supplied on the request.
+        acceptedAt:
+          type: string
+          format: date-time
+          description: ISO-8601 formatted timestamp representing when the asset was first accepted.
+    ClassificationStatus:
+      type: object
+      description: >-
+        Processing status of a classification job. GumGum documents the application status
+        messages for each content type on dedicated Application Status Messages pages
+        (Page, Video, Intravideo, Image, Text) rather than enumerating one shared list.
+      properties:
+        uuid:
+          type: string
+        status:
+          type: string
+          description: Application status message, for example INITIATED or PROCESSED.
+        dataAvailable:
+          type: boolean
+          description: Whether the analysis has completed and result data is available.
+    VerityData:
+      type: object
+      description: The contextual analysis payload returned by every GumGum Contextual surface.
+      properties:
+        iab:
+          type: object
+          description: IAB Content Taxonomy classifications.
+          properties:
+            v1:
+              type: array
+              description: IAB Content Taxonomy v1 categories with scores.
+              items:
+                type: object
+            v2:
+              type: array
+              description: IAB Content Taxonomy v2 categories with scores.
+              items:
+                type: object
+            v3:
+              type: array
+              description: IAB Content Taxonomy v3 categories with scores.
+              items:
+                type: object
+        ner:
+          type: array
+          description: Named entity recognition results.
+          items:
+            type: object
+        keywords:
+          type: array
+          description: Keywords extracted from the analyzed content.
+          items:
+            type: object
+        safe:
+          type: boolean
+          description: Brand safety assessment for the analyzed content.
+        threats:
+          type: array
+          description: Detected brand-safety threats with confidence levels.
+          items:
+            type: object
+        sentiments:
+          type: array
+          description: Emotional tone analysis of the analyzed content.
+          items:
+            type: object
+    Classification:
+      type: object
+      description: >-
+        Completed classification result. The response body format is
+        Content-Type application/json; charset=UTF-8.
+      properties:
+        dataAvailable:
+          type: boolean
+          description: Whether the analysis is complete and verityData is populated.
+        status:
+          type: string
+          description: Request status, for example INITIATED or PROCESSED.
+        uuid:
+          type: string
+          description: Unique identifier for this classification.
+        processedAt:
+          type: string
+          format: date-time
+          description: Timestamp of processing completion.
+        expiresAt:
+          type: string
+          format: date-time
+          description: Timestamp at which the stored result expires.
+        languageCode:
+          type: string
+          description: Detected language identifier.
+        verityData:
+          $ref: '#/components/schemas/VerityData'
+    PageClassification:
+      allOf:
+        - $ref: '#/components/schemas/Classification'
+        - type: object
+          properties:
+            pageUrl:
+              type: string
+              format: uri
+              description: The analyzed page URL.
+    VideoClassificationRequest:
+      type: object
+      description: Video classification submission body.
+      properties:
+        url:
+          type: string
+          format: uri
+          description: Video url for the asset to process.
+        description:
+          type: string
+          description: Video description from client.
+        title:
+          type: string
+          description: Video title from client.
+        languageCode:
+          type: string
+          description: Video language. Inferred automatically when omitted.
+        partnerVideoId:
+          type: string
+          description: Client's unique video identifier.
+        publisherId:
+          type: string
+          description: Publisher's unique identifier.
+        callbackUrl:
+          type: string
+          format: uri
+          description: Webhook endpoint results are delivered to once processing completes.
+      required:
+        - url
+    ImageClassificationRequest:
+      type: object
+      description: >-
+        Image classification submission body. The Image API Reference documents that the request
+        specifies the URL of the image to be analyzed; it does not enumerate further fields, so
+        none are asserted here.
+      properties:
+        url:
+          type: string
+          format: uri
+          description: URL of the image to be analyzed.
+      required:
+        - url
+      additionalProperties: true
+    TextClassificationRequest:
+      type: object
+      description: >-
+        Text classification submission body. The published Text API Reference does not enumerate
+        the request field names, so this schema is deliberately left open rather than guessed —
+        see https://gumgum.jira.com/wiki/spaces/VDC/pages/1780187198.
+      additionalProperties: true

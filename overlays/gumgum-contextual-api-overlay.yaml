@@ -1,0 +1,75 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the GumGum Contextual API
+  version: 1.0.0
+extends: openapi/gumgum-contextual-api-openapi.yml
+x-generated: '2026-08-01'
+x-method: generated
+x-source: >-
+  Derived from the API Evangelist enrichment pass on all/gumgum (2026-08-01). Captures the
+  cross-cutting semantics harvested from the GumGum Contextual Documentation Center that the
+  provider does not express in a machine-readable contract. Applied as an Overlay so the
+  transcribed spec in openapi/ is never mutated.
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-enriched: '2026-08-01'
+      x-apievangelist-artifacts:
+        conventions: conventions/gumgum-conventions.yml
+        errors: errors/gumgum-problem-types.yml
+        lifecycle: lifecycle/gumgum-lifecycle.yml
+        authentication: authentication/gumgum-authentication.yml
+        conformance: conformance/gumgum-conformance.yml
+        data_model: data-model/gumgum-data-model.yml
+        webhooks: asyncapi/gumgum-contextual-webhooks.yml
+        changelog: changelog/gumgum-changelog.yml
+      x-status-page: https://status.contextual.gumgum.com
+      x-idempotency: false
+      x-rate-limits-documented: false
+      x-async-model: submit-then-poll-or-callback
+  - target: $.components.securitySchemes.apiKeyHeader
+    update:
+      x-key-issuance: partner-onboarding
+      x-self-serve: false
+      x-docs: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712095256
+  - target: $.paths['/page/classify'].get
+    update:
+      x-caching:
+        cached_by_default: true
+        override_parameter: ignoreCache
+        note: >-
+          GumGum checks its Contextual database for an existing result before reprocessing; set
+          ignoreCache to force a fresh analysis.
+      x-callback-parameter: callBackUrl
+      x-agent-note: >-
+        A 200 does not mean the analysis is finished — inspect body.status (INITIATED vs PROCESSED)
+        and body.dataAvailable before consuming verityData.
+  - target: $.paths['/video/classification'].post
+    update:
+      x-callback-parameter: callbackUrl
+      x-async: true
+  - target: $.paths['/v2/video/classification'].post
+    update:
+      x-callback-parameter: callbackUrl
+      x-async: true
+  - target: $.paths['/video/classification/{uuid}'].get
+    update:
+      x-poll-semantics: >-
+        HTTP 404 is an expected state while processing is still in flight, not only an
+        invalid-uuid error. Poll the /status sibling rather than treating 404 as terminal.
+  - target: $.paths['/image/classification/{uuid}'].get
+    update:
+      x-poll-semantics: >-
+        HTTP 404 is an expected state while processing is still in flight, not only an
+        invalid-uuid error.
+  - target: $.paths['/text/classification/{uuid}'].get
+    update:
+      x-poll-semantics: >-
+        HTTP 404 is an expected state while processing is still in flight, not only an
+        invalid-uuid error.
+  - target: $.components.schemas.Error
+    update:
+      x-rfc9457: false
+      x-note: >-
+        AWS API Gateway envelope. "Missing Authentication Token" on a 403 usually means the path
+        did not match a route, not that the key was absent.

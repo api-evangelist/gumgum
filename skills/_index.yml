@@ -1,0 +1,33 @@
+generated: '2026-08-01'
+method: generated
+source: >-
+  Generated from openapi/gumgum-contextual-api-openapi.yml plus conventions/, errors/ and
+  lifecycle/. Every operationId referenced below exists verbatim in that spec. GumGum publishes no
+  AGENTS.md or provider-authored skill files (searched the Documentation Center and the public
+  GitHub organization on 2026-08-01).
+api: openapi/gumgum-contextual-api-openapi.yml
+skills:
+  - file: gumgum-classify-page.md
+    name: Classify a web page with GumGum Contextual
+    api: openapi/gumgum-contextual-api-openapi.yml
+    operations: [classifyPage]
+  - file: gumgum-classify-video.md
+    name: Classify a video with GumGum Contextual
+    api: openapi/gumgum-contextual-api-openapi.yml
+    operations:
+      - submitVideoClassification
+      - getVideoClassificationStatus
+      - getVideoClassification
+      - submitIntravideoClassification
+      - getIntravideoClassificationStatus
+      - getIntravideoClassification
+  - file: gumgum-classify-text-and-image.md
+    name: Classify text and images with GumGum Contextual
+    api: openapi/gumgum-contextual-api-openapi.yml
+    operations:
+      - submitImageClassification
+      - getImageClassificationStatus
+      - getImageClassification
+      - submitTextClassification
+      - getTextClassificationStatus
+      - getTextClassification

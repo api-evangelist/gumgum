@@ -1,0 +1,73 @@
+generated: '2026-08-01'
+method: derived
+status: candidate
+source: openapi/gumgum-contextual-api-openapi.yml
+search_result: >-
+  No GumGum-published MCP server exists. Searched the GumGum Contextual Documentation Center, the
+  public GumGum GitHub organization (27 public repos, none MCP-related), npm (no @gumgum MCP
+  package), and probed https://verity-api.gumgum.com for an MCP endpoint and for
+  /.well-known/oauth-authorization-server and /.well-known/oauth-protected-resource on
+  2026-08-01 — all miss. This file is a DESIGN CANDIDATE derived from the documented REST surface,
+  not a server GumGum operates. No MCPServer pointer is wired in apis.yml, and no tool crosswalk
+  is emitted, because there is no MCP (or GraphQL) surface to cross-walk against.
+server:
+  name: gumgum-contextual
+  transport: null
+  url: null
+  published: false
+tools:
+  - name: classify_page
+    description: Classify a web page for contextual category, brand safety and sentiment.
+    source_operation: openapi/gumgum-contextual-api-openapi.yml#classifyPage
+    read_only: false
+    note: >-
+      Semantically a read, but it triggers server-side analysis and billable processing when the
+      result is not already cached.
+  - name: submit_video_classification
+    description: Submit a video asset for contextual and brand-safety analysis.
+    source_operation: openapi/gumgum-contextual-api-openapi.yml#submitVideoClassification
+  - name: get_video_classification
+    description: Retrieve the completed classification for a submitted video.
+    source_operation: openapi/gumgum-contextual-api-openapi.yml#getVideoClassification
+    read_only: true
+  - name: get_video_classification_status
+    description: Check the processing status of a submitted video classification job.
+    source_operation: openapi/gumgum-contextual-api-openapi.yml#getVideoClassificationStatus
+    read_only: true
+  - name: submit_intravideo_classification
+    description: Submit a video asset for frame-level (intravideo) classification.
+    source_operation: openapi/gumgum-contextual-api-openapi.yml#submitIntravideoClassification
+  - name: get_intravideo_classification
+    description: Retrieve the completed frame-level classification for a submitted video.
+    source_operation: openapi/gumgum-contextual-api-openapi.yml#getIntravideoClassification
+    read_only: true
+  - name: get_intravideo_classification_status
+    description: Check the processing status of an intravideo classification job.
+    source_operation: openapi/gumgum-contextual-api-openapi.yml#getIntravideoClassificationStatus
+    read_only: true
+  - name: submit_image_classification
+    description: Submit an image for contextual, keyword and threat analysis.
+    source_operation: openapi/gumgum-contextual-api-openapi.yml#submitImageClassification
+  - name: get_image_classification
+    description: Retrieve the completed classification for a submitted image.
+    source_operation: openapi/gumgum-contextual-api-openapi.yml#getImageClassification
+    read_only: true
+  - name: get_image_classification_status
+    description: Check the processing status of an image classification job.
+    source_operation: openapi/gumgum-contextual-api-openapi.yml#getImageClassificationStatus
+    read_only: true
+  - name: submit_text_classification
+    description: Submit raw text for contextual, keyword and brand-safety analysis.
+    source_operation: openapi/gumgum-contextual-api-openapi.yml#submitTextClassification
+  - name: get_text_classification
+    description: Retrieve the completed classification for submitted text.
+    source_operation: openapi/gumgum-contextual-api-openapi.yml#getTextClassification
+    read_only: true
+  - name: get_text_classification_status
+    description: Check the processing status of a text classification job.
+    source_operation: openapi/gumgum-contextual-api-openapi.yml#getTextClassificationStatus
+    read_only: true
+auth:
+  scheme: apiKey
+  header: X-api-key
+  note: An MCP server fronting this API would carry the partner API key server-side, not per-user.

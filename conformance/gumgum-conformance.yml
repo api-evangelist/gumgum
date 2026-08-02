@@ -1,0 +1,94 @@
+generated: '2026-08-01'
+method: searched
+source: >-
+  https://gumgum.com/accreditation (GumGum's own accreditation page, fetched 2026-08-01),
+  https://gumgum.com/press-releases/mrc-ctv-accreditation, the GumGum Contextual Documentation
+  Center Taxonomy page (https://gumgum.jira.com/wiki/spaces/VDC/pages/1052148474), and
+  openapi/gumgum-contextual-api-openapi.yml.
+standards:
+  - id: mrc-accreditation
+    name: Media Rating Council accreditation
+    conforms: true
+    evidence: >-
+      GumGum's accreditation page states MRC accreditation for measurement of content-level
+      classification and URL reporting through the Verity API for CTV (announced 2023-02-09), in
+      addition to existing MRC accreditations for classification and reporting on desktop and
+      mobile web.
+    url: https://gumgum.com/accreditation
+  - id: iab-content-taxonomy
+    name: IAB Tech Lab Content Taxonomy
+    conforms: true
+    versions: [v1, v2, v3]
+    evidence: >-
+      The Contextual API JSON response returns iab.v1, iab.v2 and iab.v3 category sets; GumGum
+      publishes a Contextual Taxonomy reference page mapping its classifications to IAB categories.
+    url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1052148474
+  - id: iab-tech-lab
+    name: IAB Tech Lab certification
+    conforms: true
+    evidence: IAB Tech Lab and IAB certification badges are displayed on GumGum's accreditation page.
+    url: https://gumgum.com/accreditation
+  - id: tag
+    name: Trustworthy Accountability Group (TAG)
+    conforms: true
+    evidence: TAG badge displayed on GumGum's accreditation page.
+    url: https://gumgum.com/accreditation
+  - id: dtsg
+    name: JICWEBS Digital Trading Standards Group (DTSG) Brand Safety
+    conforms: true
+    evidence: DTSG badge displayed on GumGum's accreditation page.
+    url: https://gumgum.com/accreditation
+  - id: nai
+    name: Network Advertising Initiative membership
+    conforms: true
+    evidence: NAI badge displayed on GumGum's accreditation page.
+    url: https://gumgum.com/accreditation
+  - id: edaa
+    name: European Interactive Digital Advertising Alliance
+    conforms: true
+    evidence: EDAA badge displayed on GumGum's accreditation page.
+    url: https://gumgum.com/accreditation
+  - id: coalition-for-better-ads
+    name: Coalition for Better Ads
+    conforms: true
+    evidence: Coalition for Better Ads badge displayed on GumGum's accreditation page.
+    url: https://gumgum.com/accreditation
+  - id: soc2
+    name: SOC 2
+    conforms: true
+    confidence: medium
+    evidence: >-
+      GumGum announced in 2023 that Verity was the first contextual provider awarded SOC 2
+      compliance. The claim is carried in GumGum's press coverage; it is NOT restated on the
+      current accreditation page and GumGum publishes no trust center, so the current status of
+      the attestation could not be verified first-party at harvest time.
+    url: https://www.prweb.com/releases/gumgum-verity-first-contextual-provider-to-awarded-soc2-compliance-301926457.html
+  - id: oauth2
+    conforms: false
+    evidence: The API authenticates with a single X-api-key header; no OAuth 2.0 surface exists.
+  - id: oidc
+    conforms: false
+    evidence: No /.well-known/openid-configuration on any GumGum host (probed 2026-08-01).
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      Errors are returned as a vendor envelope {"message": "..."} with content-type
+      application/json, not application/problem+json.
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: >-
+      No /.well-known/security.txt on gumgum.com or verity-api.gumgum.com. The two 200s observed
+      were Atlassian's own policies on vendor-hosted subdomains.
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: No deprecation policy or Sunset/Deprecation header support is documented.
+  - id: asyncapi
+    conforms: false
+    evidence: >-
+      Webhook callbacks are documented in prose (callBackUrl / callbackUrl) but no AsyncAPI
+      document is published.
+  - id: a2a-agent-card
+    conforms: false
+    evidence: >-
+      No /.well-known/agent-card.json or /.well-known/agent.json on any GumGum host
+      (probed 2026-08-01).

@@ -1,0 +1,46 @@
+generated: '2026-08-01'
+method: searched
+source: https://gumgum.jira.com/wiki/spaces/VDC/pages/1783431248
+name: GumGum Contextual Product Updates
+scheme: dated-entries
+current_version: null
+cadence: irregular
+note: >-
+  GumGum publishes product updates as dated pages inside the Contextual Documentation Center rather
+  than as a versioned changelog. Entries are titled but the index page does not carry version
+  numbers, and each entry's detail lives on its own child page. Only the entries visible on the
+  index at harvest time are recorded here; the live page remains the source of truth. Several
+  entries pre-date the Verity to GumGum Contextual rename.
+entries:
+  - title: 'Update: Verity Status Code Release and NER'
+    date: '2023-10-26'
+    breaking: false
+    highlights:
+      - Status code release
+      - Named entity recognition (NER) added to the analysis response
+  - title: 'Update: Page URL Status Codes'
+    date: null
+    breaking: false
+    highlights:
+      - Page URL status codes
+    note: No date shown on the index entry.
+  - title: 'Update: Enhanced Brand Suitability & Extended Language Support in Q1 2022'
+    date: '2022-02-09'
+    breaking: false
+    highlights:
+      - Expanded brand suitability capabilities
+      - Extended multilingual support
+  - title: 'Update: Custom Segments & Contextual Video Analysis'
+    date: '2021-02-23'
+    breaking: false
+    highlights:
+      - Custom segments
+      - Contextual video analysis introduced
+  - title: 'Update: New Time processedAt Result Field'
+    date: '2020-09-15'
+    breaking: false
+    additions:
+      - processedAt result field
+related:
+  press_releases: https://gumgum.com/press
+  accreditation: https://gumgum.com/accreditation
