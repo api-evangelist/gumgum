@@ -89,6 +89,17 @@ apis:
       - type: SourceCode
         url: https://github.com/prebid/Prebid.js/blob/master/modules/gumgumBidAdapter.js
 common:
+  - type: MCPServer
+    url: mcp/gumgum-mcp.yml
+  - type: IssueTracker
+    url: https://github.com/prebid/Prebid.js/issues
+  - type: Releases
+    url: https://github.com/prebid/Prebid.js/releases
+  - type: ContributionGuide
+    url: https://github.com/prebid/Prebid.js/blob/master/CONTRIBUTING.md
+  - type: License
+    name: Apache-2.0
+    url: https://github.com/prebid/Prebid.js/blob/master/LICENSE
   - type: Website
     url: https://gumgum.com/
   - type: DeveloperPortal
