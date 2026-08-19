@@ -1,0 +1,301 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "GumGum Contextual API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-api-key",
+      "value": "{{X-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Page",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Classify a web page",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://verity-api.gumgum.com/page/classify",
+            "params": [
+              {
+                "name": "pageUrl",
+                "value": "",
+                "type": "query",
+                "description": "The properly formed URL of the web page to classify."
+              },
+              {
+                "name": "callBackUrl",
+                "value": "",
+                "type": "query",
+                "description": "Webhook endpoint GumGum Contextual POSTs the completed analysis to, as an alternative to polling this endpoint."
+              },
+              {
+                "name": "ignoreCache",
+                "value": "",
+                "type": "query",
+                "description": "Bypass stored response data and reprocess the page analysis request rather than returning the cached result from the GumGum Contextual database."
+              }
+            ]
+          },
+          "docs": "Submit a properly formed web page URL for contextual and brand-safety analysis. GumGum Contextual first checks whether results for the URL are already in its database and, if so, returns them. Otherwise the request is accepted with status INITIATED and the caller either polls this endpoint until status becomes PROCESSED, or supplies callBackUrl to have the finished analysis delivered to a webhook endpoint."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Video",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a video for classification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://verity-api.gumgum.com/video/classification",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit a video asset for contextual, brand-safety and sentiment analysis. The service responds 202 with a UUID that identifies the classification job."
+        },
+        {
+          "info": {
+            "name": "Retrieve video classification results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://verity-api.gumgum.com/video/classification/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier the classification service generated for the submitted asset."
+              }
+            ]
+          },
+          "docs": "Retrieve the completed contextual analysis for a previously submitted video."
+        },
+        {
+          "info": {
+            "name": "Check video classification status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://verity-api.gumgum.com/video/classification/:uuid/status",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier the classification service generated for the submitted asset."
+              }
+            ]
+          },
+          "docs": "Check the processing status of a submitted video classification job."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Intravideo",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a video for intravideo (frame-level) classification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://verity-api.gumgum.com/v2/video/classification",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Version 2 of the video classification surface, documented as the Intravideo API. Submits a video asset for frame-level contextual and brand-safety analysis."
+        },
+        {
+          "info": {
+            "name": "Retrieve intravideo classification results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://verity-api.gumgum.com/v2/video/classification/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier the classification service generated for the submitted asset."
+              }
+            ]
+          },
+          "docs": "Retrieve the completed frame-level analysis for a previously submitted video."
+        },
+        {
+          "info": {
+            "name": "Check intravideo classification status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://verity-api.gumgum.com/v2/video/classification/:uuid/status",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier the classification service generated for the submitted asset."
+              }
+            ]
+          },
+          "docs": "Check the processing status of a submitted intravideo classification job."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Image",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit an image for classification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://verity-api.gumgum.com/image/classification",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Initiate a new image analysis. The documentation states the request specifies the URL of the image to be analyzed; the response carries brand-safety, keyword and threat categorization data."
+        },
+        {
+          "info": {
+            "name": "Retrieve image classification results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://verity-api.gumgum.com/image/classification/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier the classification service generated for the submitted asset."
+              }
+            ]
+          },
+          "docs": "Retrieve the completed image analysis for a previously submitted image."
+        },
+        {
+          "info": {
+            "name": "Check image classification status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://verity-api.gumgum.com/image/classification/:uuid/status",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier the classification service generated for the submitted asset."
+              }
+            ]
+          },
+          "docs": "Retrieve the processing status of a submitted image analysis request."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Text",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit text for classification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://verity-api.gumgum.com/text/classification",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Initiate a new text analysis request. The response carries complete brand-safety, keyword and categorization analysis data for the analyzed text."
+        },
+        {
+          "info": {
+            "name": "Retrieve text classification results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://verity-api.gumgum.com/text/classification/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier the classification service generated for the submitted asset."
+              }
+            ]
+          },
+          "docs": "Return the analyzed text results for a previously submitted request."
+        },
+        {
+          "info": {
+            "name": "Check text classification status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://verity-api.gumgum.com/text/classification/:uuid/status",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier the classification service generated for the submitted asset."
+              }
+            ]
+          },
+          "docs": "Return the status of the text analysis."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

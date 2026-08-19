@@ -1,0 +1,2318 @@
+{
+  "item": [
+    {
+      "id": "f73701e6-7a68-466d-9b6d-45cff29a3998",
+      "name": "Page",
+      "description": {
+        "content": "Contextual classification and brand-safety analysis of a web page URL.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "56b6d44a-cf60-4b72-add0-3dcbda044a4b",
+          "name": "Classify a web page",
+          "request": {
+            "name": "Classify a web page",
+            "description": {
+              "content": "Submit a properly formed web page URL for contextual and brand-safety analysis. GumGum Contextual first checks whether results for the URL are already in its database and, if so, returns them. Otherwise the request is accepted with status INITIATED and the caller either polls this endpoint until status becomes PROCESSED, or supplies callBackUrl to have the finished analysis delivered to a webhook endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "page",
+                "classify"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageUrl",
+                  "value": "<uri>",
+                  "description": "(Required) The properly formed URL of the web page to classify."
+                },
+                {
+                  "disabled": false,
+                  "key": "callBackUrl",
+                  "value": "<uri>",
+                  "description": "Webhook endpoint GumGum Contextual POSTs the completed analysis to, as an alternative to polling this endpoint."
+                },
+                {
+                  "disabled": false,
+                  "key": "ignoreCache",
+                  "value": "<boolean>",
+                  "description": "Bypass stored response data and reprocess the page analysis request rather than returning the cached result from the GumGum Contextual database."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "da2d49f4-0276-46c6-ba8f-5af2f722cb9e",
+              "name": "Analysis result, or an acknowledgement that analysis has been initiated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "page",
+                    "classify"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageUrl",
+                      "value": "<uri>"
+                    },
+                    {
+                      "key": "callBackUrl",
+                      "value": "<uri>"
+                    },
+                    {
+                      "key": "ignoreCache",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"dataAvailable\": true,\n  \"status\": \"string\",\n  \"uuid\": \"string\",\n  \"processedAt\": \"1990-02-23T01:46:25.442Z\",\n  \"expiresAt\": \"1949-01-29T14:14:13.499Z\",\n  \"languageCode\": \"string\",\n  \"verityData\": {\n    \"iab\": {},\n    \"safe\": true\n  },\n  \"pageUrl\": \"http://gTeMFWGObebKGJUoqWBmXzdGYN.vpa0xT7qhoeRE3TUWW,WOdLltzcCazcOu2zMKzeXU\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d65bbea8-0f80-4a55-b4b8-f0bc48a2ec8f",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "page",
+                    "classify"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageUrl",
+                      "value": "<uri>"
+                    },
+                    {
+                      "key": "callBackUrl",
+                      "value": "<uri>"
+                    },
+                    {
+                      "key": "ignoreCache",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1ab02d93-9b25-41c4-b2fc-f27bef27ccd4",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "page",
+                    "classify"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageUrl",
+                      "value": "<uri>"
+                    },
+                    {
+                      "key": "callBackUrl",
+                      "value": "<uri>"
+                    },
+                    {
+                      "key": "ignoreCache",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "2b07b794-490c-4684-a06c-619feadfe128",
+      "name": "Video",
+      "description": {
+        "content": "Contextual classification and brand-safety analysis of a video asset, including its audio track.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "192d039f-fcc0-423f-856d-bb18944fb862",
+          "name": "Submit a video for classification",
+          "request": {
+            "name": "Submit a video for classification",
+            "description": {
+              "content": "Submit a video asset for contextual, brand-safety and sentiment analysis. The service responds 202 with a UUID that identifies the classification job.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "video",
+                "classification"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"<uri>\",\n  \"description\": \"<string>\",\n  \"title\": \"<string>\",\n  \"languageCode\": \"<string>\",\n  \"partnerVideoId\": \"<string>\",\n  \"publisherId\": \"<string>\",\n  \"callbackUrl\": \"<uri>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5be90424-b158-45ff-a582-86c895bcc7fd",
+              "name": "Video accepted for classification.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "classification"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"<uri>\",\n  \"description\": \"<string>\",\n  \"title\": \"<string>\",\n  \"languageCode\": \"<string>\",\n  \"partnerVideoId\": \"<string>\",\n  \"publisherId\": \"<string>\",\n  \"callbackUrl\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"uuid\": \"string\",\n  \"url\": \"http://NaMzlGhGcISwCejKfMV.wryXODF4oIksnZ\",\n  \"acceptedAt\": \"1971-04-30T20:29:37.467Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "80ed746b-3614-4c13-8c79-3f36c9eebb03",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "classification"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"<uri>\",\n  \"description\": \"<string>\",\n  \"title\": \"<string>\",\n  \"languageCode\": \"<string>\",\n  \"partnerVideoId\": \"<string>\",\n  \"publisherId\": \"<string>\",\n  \"callbackUrl\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7627b115-840b-4c96-aa87-a2107cf2d5b7",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "classification"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"<uri>\",\n  \"description\": \"<string>\",\n  \"title\": \"<string>\",\n  \"languageCode\": \"<string>\",\n  \"partnerVideoId\": \"<string>\",\n  \"publisherId\": \"<string>\",\n  \"callbackUrl\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1b310b29-0feb-48aa-82e2-a022e51a13b0",
+          "name": "Retrieve video classification results",
+          "request": {
+            "name": "Retrieve video classification results",
+            "description": {
+              "content": "Retrieve the completed contextual analysis for a previously submitted video.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "video",
+                "classification",
+                ":uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f542f4e8-94ee-424c-8144-f0bcf21f1778",
+              "name": "Completed video classification.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "classification",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"dataAvailable\": false,\n  \"status\": \"string\",\n  \"uuid\": \"string\",\n  \"processedAt\": \"2022-11-18T17:35:47.981Z\",\n  \"expiresAt\": \"1976-12-11T11:27:31.421Z\",\n  \"languageCode\": \"string\",\n  \"verityData\": {\n    \"iab\": {},\n    \"safe\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d283bba9-ba0b-4093-b06c-61078a3930e3",
+              "name": "Results are not yet available, or the UUID is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "classification",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2b1fbe27-77dc-43ec-ae6c-1d1a6c76e0ab",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "classification",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "af064e3f-d076-45d4-bf9f-410f2fb87cf2",
+          "name": "Check video classification status",
+          "request": {
+            "name": "Check video classification status",
+            "description": {
+              "content": "Check the processing status of a submitted video classification job.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "video",
+                "classification",
+                ":uuid",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1ea27274-6d0b-46ad-bc95-da1b68828d74",
+              "name": "Current processing status.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "classification",
+                    ":uuid",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"uuid\": \"string\",\n  \"status\": \"string\",\n  \"dataAvailable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "94401489-d0f9-47fe-b4c1-050554cca8fa",
+              "name": "Status not available, or the UUID is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "classification",
+                    ":uuid",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "cd296e7d-5d66-4150-9d7f-0346484fb068",
+      "name": "Intravideo",
+      "description": {
+        "content": "Frame-level (intravideo) classification of a video asset. Version 2 of the video classification surface.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5f517eb1-4299-4c63-91d1-c205dc78d273",
+          "name": "Submit a video for intravideo (frame-level) classification",
+          "request": {
+            "name": "Submit a video for intravideo (frame-level) classification",
+            "description": {
+              "content": "Version 2 of the video classification surface, documented as the Intravideo API. Submits a video asset for frame-level contextual and brand-safety analysis.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "video",
+                "classification"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"<uri>\",\n  \"description\": \"<string>\",\n  \"title\": \"<string>\",\n  \"languageCode\": \"<string>\",\n  \"partnerVideoId\": \"<string>\",\n  \"publisherId\": \"<string>\",\n  \"callbackUrl\": \"<uri>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ea3b844e-17eb-4ebe-89db-c7c4c86219ac",
+              "name": "Video accepted for intravideo classification.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "video",
+                    "classification"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"<uri>\",\n  \"description\": \"<string>\",\n  \"title\": \"<string>\",\n  \"languageCode\": \"<string>\",\n  \"partnerVideoId\": \"<string>\",\n  \"publisherId\": \"<string>\",\n  \"callbackUrl\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"uuid\": \"string\",\n  \"url\": \"http://NaMzlGhGcISwCejKfMV.wryXODF4oIksnZ\",\n  \"acceptedAt\": \"1971-04-30T20:29:37.467Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7de7adb3-6dac-49f7-b684-d7905ff5b6e8",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "video",
+                    "classification"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"<uri>\",\n  \"description\": \"<string>\",\n  \"title\": \"<string>\",\n  \"languageCode\": \"<string>\",\n  \"partnerVideoId\": \"<string>\",\n  \"publisherId\": \"<string>\",\n  \"callbackUrl\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3b49e5fb-55c8-40cd-9db5-915859ba5042",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "video",
+                    "classification"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"<uri>\",\n  \"description\": \"<string>\",\n  \"title\": \"<string>\",\n  \"languageCode\": \"<string>\",\n  \"partnerVideoId\": \"<string>\",\n  \"publisherId\": \"<string>\",\n  \"callbackUrl\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f62f082c-0bcb-4915-afeb-aa1d8e131027",
+          "name": "Retrieve intravideo classification results",
+          "request": {
+            "name": "Retrieve intravideo classification results",
+            "description": {
+              "content": "Retrieve the completed frame-level analysis for a previously submitted video.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "video",
+                "classification",
+                ":uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1c007345-584f-44b8-b8a5-9c6a9343a06d",
+              "name": "Completed intravideo classification.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "video",
+                    "classification",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"dataAvailable\": false,\n  \"status\": \"string\",\n  \"uuid\": \"string\",\n  \"processedAt\": \"2022-11-18T17:35:47.981Z\",\n  \"expiresAt\": \"1976-12-11T11:27:31.421Z\",\n  \"languageCode\": \"string\",\n  \"verityData\": {\n    \"iab\": {},\n    \"safe\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "64e7333e-2228-4219-8c25-edd37306b32d",
+              "name": "Results are not yet available, or the UUID is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "video",
+                    "classification",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1dbdbe06-5fe2-4dee-816e-233cbef0e100",
+          "name": "Check intravideo classification status",
+          "request": {
+            "name": "Check intravideo classification status",
+            "description": {
+              "content": "Check the processing status of a submitted intravideo classification job.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "video",
+                "classification",
+                ":uuid",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a9ed715d-5bfe-4ce6-95d5-5e7932356f54",
+              "name": "Current processing status.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "video",
+                    "classification",
+                    ":uuid",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"uuid\": \"string\",\n  \"status\": \"string\",\n  \"dataAvailable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "04f4d1bc-a67c-42e0-b9ea-7ef2440ab739",
+              "name": "Status not available, or the UUID is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "video",
+                    "classification",
+                    ":uuid",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "ba2e34ca-ddb9-4a17-b0aa-358c6dd73e11",
+      "name": "Image",
+      "description": {
+        "content": "Contextual classification, keyword and threat analysis of a single image.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ffa0b72d-aee3-4cc6-8824-89901606c2a0",
+          "name": "Submit an image for classification",
+          "request": {
+            "name": "Submit an image for classification",
+            "description": {
+              "content": "Initiate a new image analysis. The documentation states the request specifies the URL of the image to be analyzed; the response carries brand-safety, keyword and threat categorization data.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "image",
+                "classification"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"<uri>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "97027fb4-1b63-4f54-b3b7-3e1c142a16b2",
+              "name": "Image accepted for classification.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "image",
+                    "classification"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"uuid\": \"string\",\n  \"url\": \"http://NaMzlGhGcISwCejKfMV.wryXODF4oIksnZ\",\n  \"acceptedAt\": \"1971-04-30T20:29:37.467Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e70f273c-27fd-42dd-9ad9-b6087ae2c290",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "image",
+                    "classification"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "20b4cc1b-7764-4dda-bbc7-9fe26da946a4",
+          "name": "Retrieve image classification results",
+          "request": {
+            "name": "Retrieve image classification results",
+            "description": {
+              "content": "Retrieve the completed image analysis for a previously submitted image.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "image",
+                "classification",
+                ":uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "46b2ad0b-549b-4cf3-99a6-dc33f6e1a1fc",
+              "name": "Completed image classification.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "image",
+                    "classification",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"dataAvailable\": false,\n  \"status\": \"string\",\n  \"uuid\": \"string\",\n  \"processedAt\": \"2022-11-18T17:35:47.981Z\",\n  \"expiresAt\": \"1976-12-11T11:27:31.421Z\",\n  \"languageCode\": \"string\",\n  \"verityData\": {\n    \"iab\": {},\n    \"safe\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "444ae49c-071a-4ebd-97ea-1d4323a0c937",
+              "name": "Results are not yet available, or the UUID is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "image",
+                    "classification",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "12c3aedb-f2f4-4781-a9d3-b75b72f37bcb",
+          "name": "Check image classification status",
+          "request": {
+            "name": "Check image classification status",
+            "description": {
+              "content": "Retrieve the processing status of a submitted image analysis request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "image",
+                "classification",
+                ":uuid",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9e075338-c268-4fba-b349-4329a8bf2049",
+              "name": "Current processing status.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "image",
+                    "classification",
+                    ":uuid",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"uuid\": \"string\",\n  \"status\": \"string\",\n  \"dataAvailable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "66522b83-306b-4d3d-9299-fb77ac7976fa",
+              "name": "Status not available, or the UUID is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "image",
+                    "classification",
+                    ":uuid",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "b1d18104-d88d-4c97-9840-1759e783576e",
+      "name": "Text",
+      "description": {
+        "content": "Contextual classification, keyword and brand-safety analysis of a raw block of text.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "016f53a0-1fe8-44b2-923f-63560ac041d2",
+          "name": "Submit text for classification",
+          "request": {
+            "name": "Submit text for classification",
+            "description": {
+              "content": "Initiate a new text analysis request. The response carries complete brand-safety, keyword and categorization analysis data for the analyzed text.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "text",
+                "classification"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"key_0\": 7082,\n  \"key_1\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3d3b14ed-ddf0-40fd-9db8-bea5bc5d74ef",
+              "name": "Text accepted for classification.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "text",
+                    "classification"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key_0\": 5604,\n  \"key_1\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"uuid\": \"string\",\n  \"url\": \"http://NaMzlGhGcISwCejKfMV.wryXODF4oIksnZ\",\n  \"acceptedAt\": \"1971-04-30T20:29:37.467Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "558ee349-3a07-407b-a8a2-1e2f2b5e2e87",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "text",
+                    "classification"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"key_0\": 5604,\n  \"key_1\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a3523493-80d6-4584-9575-ff3daae8dfe4",
+          "name": "Retrieve text classification results",
+          "request": {
+            "name": "Retrieve text classification results",
+            "description": {
+              "content": "Return the analyzed text results for a previously submitted request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "text",
+                "classification",
+                ":uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3478f06a-b675-4c9d-9f89-3a233685ac00",
+              "name": "Completed text classification.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "text",
+                    "classification",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"dataAvailable\": false,\n  \"status\": \"string\",\n  \"uuid\": \"string\",\n  \"processedAt\": \"2022-11-18T17:35:47.981Z\",\n  \"expiresAt\": \"1976-12-11T11:27:31.421Z\",\n  \"languageCode\": \"string\",\n  \"verityData\": {\n    \"iab\": {},\n    \"safe\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5dec3901-1e0d-41ae-a7b5-84652902c4b5",
+              "name": "Results are not yet available, or the UUID is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "text",
+                    "classification",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "484b004d-45f5-4379-b229-f846be1bab55",
+          "name": "Check text classification status",
+          "request": {
+            "name": "Check text classification status",
+            "description": {
+              "content": "Return the status of the text analysis.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "text",
+                "classification",
+                ":uuid",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d090970a-7fed-4fbd-b691-98f8c155d1e1",
+              "name": "Current processing status.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "text",
+                    "classification",
+                    ":uuid",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"uuid\": \"string\",\n  \"status\": \"string\",\n  \"dataAvailable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "60404b22-a57f-4ee4-bd8b-10460ecaf965",
+              "name": "Status not available, or the UUID is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "text",
+                    "classification",
+                    ":uuid",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique identifier the classification service generated for the submitted asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://verity-api.gumgum.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8aa4588d-4970-49c8-bd7c-ee467e6bdcc4",
+    "name": "GumGum Contextual API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The GumGum Contextual API (formerly Verity) returns content-level contextual classification, brand safety/suitability and sentiment analysis for web pages, video (including audio), individual video frames (intravideo), images and raw text. Analysis is asynchronous: a request is submitted, the service returns a UUID, and results are retrieved either by polling or by supplying a callback URL that GumGum POSTs the finished analysis to. Results include IAB Content Taxonomy categories (v1, v2 and v3), extracted keywords, named entities, a brand-safety boolean, detected threats and sentiment scores.\n\nContact Support:\n Name: GumGum Partner Support\n Email: support@gumgum.com",
+      "type": "text/plain"
+    }
+  }
+}
