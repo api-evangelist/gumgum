@@ -20,6 +20,21 @@ specificationVersion: '0.23'
 created: '2026-08-01'
 modified: '2026-08-01'
 tags:
+  - Advertising
+  - AdTech
+  - Contextual Advertising
+  - Brand Safety
+  - Content Classification
+  - Computer-Vision
+  - Natural Language Processing
+  - Video Analysis
+  - Image Analysis
+  - Connected TV
+  - Header Bidding
+  - Programmatic Advertising
+  - iab-taxonomy
+  - Content Moderation
+tags_raw:
   - advertising
   - adtech
   - contextual-advertising
@@ -50,6 +65,15 @@ apis:
     humanURL: https://gumgum.jira.com/wiki/spaces/VDC
     baseURL: https://verity-api.gumgum.com
     tags:
+      - Contextual Advertising
+      - Brand Safety
+      - Content Classification
+      - Computer-Vision
+      - Natural Language Processing
+      - Video Analysis
+      - Image Analysis
+      - iab-taxonomy
+    tags_raw:
       - contextual-advertising
       - brand-safety
       - content-classification
@@ -79,6 +103,11 @@ apis:
     humanURL: https://docs.prebid.org/dev-docs/bidders/gumgum.html
     baseURL: https://g2.gumgum.com
     tags:
+      - Header Bidding
+      - Programmatic Advertising
+      - Advertising
+      - Real-Time Bidding
+    tags_raw:
       - header-bidding
       - programmatic-advertising
       - advertising
