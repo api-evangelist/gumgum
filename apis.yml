@@ -55,69 +55,123 @@ maintainers:
   - FN: APIs.json
     email: info@apis.io
 apis:
-  - name: GumGum Contextual API
-    description: >-
-      Server-to-server REST API returning content-level contextual classification, brand safety and
-      suitability, and sentiment analysis for web pages, video (including audio), individual video
-      frames, images and raw text. Analysis is asynchronous: submit an asset, receive a UUID, then
-      poll for the result or supply a callback URL for webhook delivery. Authenticated with an
-      X-api-key request header.
-    humanURL: https://gumgum.jira.com/wiki/spaces/VDC
-    baseURL: https://verity-api.gumgum.com
-    tags:
-      - Contextual Advertising
-      - Brand Safety
-      - Content Classification
-      - Computer-Vision
-      - Natural Language Processing
-      - Video Analysis
-      - Image Analysis
-      - iab-taxonomy
-    tags_raw:
-      - contextual-advertising
-      - brand-safety
-      - content-classification
-      - computer-vision
-      - natural-language-processing
-      - video-analysis
-      - image-analysis
-      - iab-taxonomy
-    properties:
-      - type: OpenAPI
-        url: openapi/gumgum-contextual-api-openapi.yml
-      - type: Documentation
-        url: https://gumgum.jira.com/wiki/spaces/VDC
-      - type: APIReference
-        url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712030855
-      - type: GettingStarted
-        url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712095256
-      - type: Overlay
-        url: overlays/gumgum-contextual-api-overlay.yaml
-      - type: Webhooks
-        url: asyncapi/gumgum-contextual-webhooks.yml
-  - name: GumGum Prebid Header Bidding Endpoint
-    description: >-
-      GumGum's real-time bidding endpoint for header bidding, integrated through the open-source
-      Prebid.js gumgumBidAdapter (bidder code gumgum, alias gg, IAB GVL ID 61). Supports banner,
-      native and video media types. Bid requests are POSTed to the hbid/imp path by the adapter.
-    humanURL: https://docs.prebid.org/dev-docs/bidders/gumgum.html
-    baseURL: https://g2.gumgum.com
-    tags:
-      - Header Bidding
-      - Programmatic Advertising
-      - Advertising
-      - Real-Time Bidding
-    tags_raw:
-      - header-bidding
-      - programmatic-advertising
-      - advertising
-      - real-time-bidding
-    properties:
-      - type: Documentation
-        url: https://docs.prebid.org/dev-docs/bidders/gumgum.html
-      - type: SourceCode
-        url: https://github.com/prebid/Prebid.js/blob/master/modules/gumgumBidAdapter.js
+- name: GumGum Prebid Header Bidding Endpoint
+  description: >-
+    GumGum's real-time bidding endpoint for header bidding, integrated through the open-source Prebid.js
+    gumgumBidAdapter (bidder code gumgum, alias gg, IAB GVL ID 61). Supports banner, native and video
+    media types. Bid requests are POSTed to the hbid/imp path by the adapter.
+  humanURL: https://docs.prebid.org/dev-docs/bidders/gumgum.html
+  baseURL: https://g2.gumgum.com
+  tags:
+  - Header Bidding
+  - Programmatic Advertising
+  - Advertising
+  - Real-Time Bidding
+  tags_raw:
+  - header-bidding
+  - programmatic-advertising
+  - advertising
+  - real-time-bidding
+  properties:
+  - type: Documentation
+    url: https://docs.prebid.org/dev-docs/bidders/gumgum.html
+  - type: SourceCode
+    url: https://github.com/prebid/Prebid.js/blob/master/modules/gumgumBidAdapter.js
+- aid: gumgum:gumgum-image-api
+  name: GumGum Image API
+  description: Contextual classification, keyword and threat analysis of a single image.
+  humanURL: https://gumgum.jira.com/wiki/spaces/VDC
+  baseURL: https://verity-api.gumgum.com
+  tags:
+  - Image
+  properties:
+  - type: OpenAPI
+    url: openapi/gumgum-image-api-openapi.yml
+  - type: Documentation
+    url: https://gumgum.jira.com/wiki/spaces/VDC
+  - type: APIReference
+    url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712030855
+  - type: GettingStarted
+    url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712095256
+  - type: Webhooks
+    url: asyncapi/gumgum-contextual-webhooks.yml
+- aid: gumgum:gumgum-intravideo-api
+  name: GumGum Intravideo API
+  description: >-
+    Frame-level (intravideo) classification of a video asset. Version 2 of the video classification surface.
+  humanURL: https://gumgum.jira.com/wiki/spaces/VDC
+  baseURL: https://verity-api.gumgum.com
+  tags:
+  - Intravideo
+  properties:
+  - type: OpenAPI
+    url: openapi/gumgum-intravideo-api-openapi.yml
+  - type: Documentation
+    url: https://gumgum.jira.com/wiki/spaces/VDC
+  - type: APIReference
+    url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712030855
+  - type: GettingStarted
+    url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712095256
+  - type: Webhooks
+    url: asyncapi/gumgum-contextual-webhooks.yml
+- aid: gumgum:gumgum-page-api
+  name: GumGum Page API
+  description: Contextual classification and brand-safety analysis of a web page URL.
+  humanURL: https://gumgum.jira.com/wiki/spaces/VDC
+  baseURL: https://verity-api.gumgum.com
+  tags:
+  - Page
+  properties:
+  - type: OpenAPI
+    url: openapi/gumgum-page-api-openapi.yml
+  - type: Documentation
+    url: https://gumgum.jira.com/wiki/spaces/VDC
+  - type: APIReference
+    url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712030855
+  - type: GettingStarted
+    url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712095256
+  - type: Webhooks
+    url: asyncapi/gumgum-contextual-webhooks.yml
+- aid: gumgum:gumgum-text-api
+  name: GumGum Text API
+  description: Contextual classification, keyword and brand-safety analysis of a raw block of text.
+  humanURL: https://gumgum.jira.com/wiki/spaces/VDC
+  baseURL: https://verity-api.gumgum.com
+  tags:
+  - Text
+  properties:
+  - type: OpenAPI
+    url: openapi/gumgum-text-api-openapi.yml
+  - type: Documentation
+    url: https://gumgum.jira.com/wiki/spaces/VDC
+  - type: APIReference
+    url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712030855
+  - type: GettingStarted
+    url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712095256
+  - type: Webhooks
+    url: asyncapi/gumgum-contextual-webhooks.yml
+- aid: gumgum:gumgum-video-api
+  name: GumGum Video API
+  description: >-
+    Contextual classification and brand-safety analysis of a video asset, including its audio track.
+  humanURL: https://gumgum.jira.com/wiki/spaces/VDC
+  baseURL: https://verity-api.gumgum.com
+  tags:
+  - Video
+  properties:
+  - type: OpenAPI
+    url: openapi/gumgum-video-api-openapi.yml
+  - type: Documentation
+    url: https://gumgum.jira.com/wiki/spaces/VDC
+  - type: APIReference
+    url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712030855
+  - type: GettingStarted
+    url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1712095256
+  - type: Webhooks
+    url: asyncapi/gumgum-contextual-webhooks.yml
 common:
+  - type: Overlay
+    url: overlays/gumgum-contextual-api-overlay.yaml
   - type: MCPServer
     url: mcp/gumgum-mcp.yml
   - type: IssueTracker
