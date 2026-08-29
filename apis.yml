@@ -12,6 +12,20 @@ description: >-
   asynchronous webhook callback for delivering completed classifications. GumGum also ships an
   open-source Prebid.js bid adapter for header bidding, and holds Media Rating Council
   accreditation for content-level classification across desktop, mobile web and CTV.
+deliveryModel:
+  model: open-core
+  license: Apache-2.0
+  open_source: true
+  commercial: true
+  callable_host: true
+  label: Open core · an OSS project plus a commercial hosted product
+  confidence: high
+  source:
+  - license
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://cdn.prod.website-files.com/69eee532313396005f3a101b/6a332287fbe7e4cb30bb3ad4_gumgum-metadata-image.jpg
 url: https://raw.githubusercontent.com/api-evangelist/gumgum/refs/heads/main/apis.yml
 x-type: company
