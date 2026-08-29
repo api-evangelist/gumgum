@@ -1,0 +1,228 @@
+openapi: 3.2.0
+info:
+  title: GumGum Contextual Image API
+  version: '1.0'
+  x-generated: '2026-08-01'
+  x-method: generated
+  x-source: Generated faithfully from the published GumGum Contextual Documentation Center (https://gumgum.jira.com/wiki/spaces/VDC) — specifically the Get Started - Page API (pages/1712095256), Get Started - Video API (pages/1712029924), API Reference (pages/1712030855), Page API Reference (pages/1780285512), Image API Reference (pages/1780187188), Text API Reference (pages/1780187198) and JSON Response Reference (pages/1724743813) pages. GumGum does not publish an OpenAPI description. Every path, method, parameter, response field, and status code below is transcribed from those pages. The host was verified by probing it on 2026-08-01 (GET https://verity-api.gumgum.com/page/classify with no API key returns HTTP 403 with the JSON body {"message":"Forbidden"}; unmatched paths return HTTP 403 {"message":"Missing Authentication Token"} — the AWS API Gateway signature). No operation, field, or value was invented; where the documentation does not enumerate a request body's fields, the schema is left open and annotated rather than guessed.
+  description: 'The GumGum Contextual API (formerly Verity) returns content-level contextual classification, brand safety/suitability and sentiment analysis for web pages, video (including audio), individual video frames (intravideo), images and raw text. Analysis is asynchronous: a request is submitted, the service returns a UUID, and results are retrieved either by polling or by supplying a callback URL that GumGum POSTs the finished analysis to. Results include IAB Content Taxonomy categories (v1, v2 and v3), extracted keywords, named entities, a brand-safety boolean, detected threats and sentiment scores.'
+  contact:
+    name: GumGum Partner Support
+    url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1728217585
+    email: support@gumgum.com
+  termsOfService: https://gumgum.com/terms-and-policies
+  x-documentation: https://gumgum.jira.com/wiki/spaces/VDC
+servers:
+- url: https://verity-api.gumgum.com
+  description: Production GumGum Contextual API host
+security:
+- apiKeyHeader: []
+tags:
+- name: Image
+  description: Contextual classification, keyword and threat analysis of a single image.
+paths:
+  /image/classification:
+    post:
+      operationId: submitImageClassification
+      summary: Submit an image for classification
+      description: Initiate a new image analysis. The documentation states the request specifies the URL of the image to be analyzed; the response carries brand-safety, keyword and threat categorization data.
+      tags:
+      - Image
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageClassificationRequest'
+      responses:
+        '202':
+          description: Image accepted for classification.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationAccepted'
+        '403':
+          description: Missing or invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /image/classification/{uuid}:
+    get:
+      operationId: getImageClassification
+      summary: Retrieve image classification results
+      description: Retrieve the completed image analysis for a previously submitted image.
+      tags:
+      - Image
+      parameters:
+      - $ref: '#/components/parameters/uuid'
+      responses:
+        '200':
+          description: Completed image classification.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Classification'
+        '404':
+          description: Results are not yet available, or the UUID is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /image/classification/{uuid}/status:
+    get:
+      operationId: getImageClassificationStatus
+      summary: Check image classification status
+      description: Retrieve the processing status of a submitted image analysis request.
+      tags:
+      - Image
+      parameters:
+      - $ref: '#/components/parameters/uuid'
+      responses:
+        '200':
+          description: Current processing status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationStatus'
+        '404':
+          description: Status not available, or the UUID is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Classification:
+      type: object
+      description: Completed classification result. The response body format is Content-Type application/json; charset=UTF-8.
+      properties:
+        dataAvailable:
+          type: boolean
+          description: Whether the analysis is complete and verityData is populated.
+        status:
+          type: string
+          description: Request status, for example INITIATED or PROCESSED.
+        uuid:
+          type: string
+          description: Unique identifier for this classification.
+        processedAt:
+          type: string
+          format: date-time
+          description: Timestamp of processing completion.
+        expiresAt:
+          type: string
+          format: date-time
+          description: Timestamp at which the stored result expires.
+        languageCode:
+          type: string
+          description: Detected language identifier.
+        verityData:
+          $ref: '#/components/schemas/VerityData'
+    VerityData:
+      type: object
+      description: The contextual analysis payload returned by every GumGum Contextual surface.
+      properties:
+        iab:
+          type: object
+          description: IAB Content Taxonomy classifications.
+          properties:
+            v1:
+              type: array
+              description: IAB Content Taxonomy v1 categories with scores.
+              items:
+                type: object
+            v2:
+              type: array
+              description: IAB Content Taxonomy v2 categories with scores.
+              items:
+                type: object
+            v3:
+              type: array
+              description: IAB Content Taxonomy v3 categories with scores.
+              items:
+                type: object
+        ner:
+          type: array
+          description: Named entity recognition results.
+          items:
+            type: object
+        keywords:
+          type: array
+          description: Keywords extracted from the analyzed content.
+          items:
+            type: object
+        safe:
+          type: boolean
+          description: Brand safety assessment for the analyzed content.
+        threats:
+          type: array
+          description: Detected brand-safety threats with confidence levels.
+          items:
+            type: object
+        sentiments:
+          type: array
+          description: Emotional tone analysis of the analyzed content.
+          items:
+            type: object
+    ClassificationAccepted:
+      type: object
+      description: Acknowledgement that an asset has been accepted for classification.
+      properties:
+        uuid:
+          type: string
+          description: Unique identifier generated by the service for this classification job.
+        url:
+          type: string
+          format: uri
+          description: The asset URL supplied on the request.
+        acceptedAt:
+          type: string
+          format: date-time
+          description: ISO-8601 formatted timestamp representing when the asset was first accepted.
+    Error:
+      type: object
+      description: Error envelope observed on the production host on 2026-08-01 — for example {"message":"Forbidden"} for an unauthenticated call to a real path and {"message":"Missing Authentication Token"} for an unmatched path.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+      required:
+      - message
+    ClassificationStatus:
+      type: object
+      description: Processing status of a classification job. GumGum documents the application status messages for each content type on dedicated Application Status Messages pages (Page, Video, Intravideo, Image, Text) rather than enumerating one shared list.
+      properties:
+        uuid:
+          type: string
+        status:
+          type: string
+          description: Application status message, for example INITIATED or PROCESSED.
+        dataAvailable:
+          type: boolean
+          description: Whether the analysis has completed and result data is available.
+    ImageClassificationRequest:
+      type: object
+      description: Image classification submission body. The Image API Reference documents that the request specifies the URL of the image to be analyzed; it does not enumerate further fields, so none are asserted here.
+      properties:
+        url:
+          type: string
+          format: uri
+          description: URL of the image to be analyzed.
+      required:
+      - url
+      additionalProperties: true
+  parameters:
+    uuid:
+      name: uuid
+      in: path
+      required: true
+      description: The unique identifier the classification service generated for the submitted asset.
+      schema:
+        type: string
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-api-key
+      description: API key issued by GumGum, sent on every request as the X-api-key request header. Documented at https://gumgum.jira.com/wiki/spaces/VDC/pages/1712095256.

@@ -1,0 +1,168 @@
+openapi: 3.2.0
+info:
+  title: GumGum Contextual Page API
+  version: '1.0'
+  x-generated: '2026-08-01'
+  x-method: generated
+  x-source: Generated faithfully from the published GumGum Contextual Documentation Center (https://gumgum.jira.com/wiki/spaces/VDC) — specifically the Get Started - Page API (pages/1712095256), Get Started - Video API (pages/1712029924), API Reference (pages/1712030855), Page API Reference (pages/1780285512), Image API Reference (pages/1780187188), Text API Reference (pages/1780187198) and JSON Response Reference (pages/1724743813) pages. GumGum does not publish an OpenAPI description. Every path, method, parameter, response field, and status code below is transcribed from those pages. The host was verified by probing it on 2026-08-01 (GET https://verity-api.gumgum.com/page/classify with no API key returns HTTP 403 with the JSON body {"message":"Forbidden"}; unmatched paths return HTTP 403 {"message":"Missing Authentication Token"} — the AWS API Gateway signature). No operation, field, or value was invented; where the documentation does not enumerate a request body's fields, the schema is left open and annotated rather than guessed.
+  description: 'The GumGum Contextual API (formerly Verity) returns content-level contextual classification, brand safety/suitability and sentiment analysis for web pages, video (including audio), individual video frames (intravideo), images and raw text. Analysis is asynchronous: a request is submitted, the service returns a UUID, and results are retrieved either by polling or by supplying a callback URL that GumGum POSTs the finished analysis to. Results include IAB Content Taxonomy categories (v1, v2 and v3), extracted keywords, named entities, a brand-safety boolean, detected threats and sentiment scores.'
+  contact:
+    name: GumGum Partner Support
+    url: https://gumgum.jira.com/wiki/spaces/VDC/pages/1728217585
+    email: support@gumgum.com
+  termsOfService: https://gumgum.com/terms-and-policies
+  x-documentation: https://gumgum.jira.com/wiki/spaces/VDC
+servers:
+- url: https://verity-api.gumgum.com
+  description: Production GumGum Contextual API host
+security:
+- apiKeyHeader: []
+tags:
+- name: Page
+  description: Contextual classification and brand-safety analysis of a web page URL.
+paths:
+  /page/classify:
+    get:
+      operationId: classifyPage
+      summary: Classify a web page
+      description: Submit a properly formed web page URL for contextual and brand-safety analysis. GumGum Contextual first checks whether results for the URL are already in its database and, if so, returns them. Otherwise the request is accepted with status INITIATED and the caller either polls this endpoint until status becomes PROCESSED, or supplies callBackUrl to have the finished analysis delivered to a webhook endpoint.
+      tags:
+      - Page
+      parameters:
+      - name: pageUrl
+        in: query
+        required: true
+        description: The properly formed URL of the web page to classify.
+        schema:
+          type: string
+          format: uri
+      - name: callBackUrl
+        in: query
+        required: false
+        description: Webhook endpoint GumGum Contextual POSTs the completed analysis to, as an alternative to polling this endpoint.
+        schema:
+          type: string
+          format: uri
+      - name: ignoreCache
+        in: query
+        required: false
+        description: Bypass stored response data and reprocess the page analysis request rather than returning the cached result from the GumGum Contextual database.
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Analysis result, or an acknowledgement that analysis has been initiated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageClassification'
+        '403':
+          description: Missing or invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    VerityData:
+      type: object
+      description: The contextual analysis payload returned by every GumGum Contextual surface.
+      properties:
+        iab:
+          type: object
+          description: IAB Content Taxonomy classifications.
+          properties:
+            v1:
+              type: array
+              description: IAB Content Taxonomy v1 categories with scores.
+              items:
+                type: object
+            v2:
+              type: array
+              description: IAB Content Taxonomy v2 categories with scores.
+              items:
+                type: object
+            v3:
+              type: array
+              description: IAB Content Taxonomy v3 categories with scores.
+              items:
+                type: object
+        ner:
+          type: array
+          description: Named entity recognition results.
+          items:
+            type: object
+        keywords:
+          type: array
+          description: Keywords extracted from the analyzed content.
+          items:
+            type: object
+        safe:
+          type: boolean
+          description: Brand safety assessment for the analyzed content.
+        threats:
+          type: array
+          description: Detected brand-safety threats with confidence levels.
+          items:
+            type: object
+        sentiments:
+          type: array
+          description: Emotional tone analysis of the analyzed content.
+          items:
+            type: object
+    Classification:
+      type: object
+      description: Completed classification result. The response body format is Content-Type application/json; charset=UTF-8.
+      properties:
+        dataAvailable:
+          type: boolean
+          description: Whether the analysis is complete and verityData is populated.
+        status:
+          type: string
+          description: Request status, for example INITIATED or PROCESSED.
+        uuid:
+          type: string
+          description: Unique identifier for this classification.
+        processedAt:
+          type: string
+          format: date-time
+          description: Timestamp of processing completion.
+        expiresAt:
+          type: string
+          format: date-time
+          description: Timestamp at which the stored result expires.
+        languageCode:
+          type: string
+          description: Detected language identifier.
+        verityData:
+          $ref: '#/components/schemas/VerityData'
+    PageClassification:
+      allOf:
+      - $ref: '#/components/schemas/Classification'
+      - type: object
+        properties:
+          pageUrl:
+            type: string
+            format: uri
+            description: The analyzed page URL.
+    Error:
+      type: object
+      description: Error envelope observed on the production host on 2026-08-01 — for example {"message":"Forbidden"} for an unauthenticated call to a real path and {"message":"Missing Authentication Token"} for an unmatched path.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+      required:
+      - message
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-api-key
+      description: API key issued by GumGum, sent on every request as the X-api-key request header. Documented at https://gumgum.jira.com/wiki/spaces/VDC/pages/1712095256.

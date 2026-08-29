@@ -1,0 +1,23 @@
+{
+  "provider": "gumgum",
+  "sources": [
+    "gumgum-contextual-api-openapi.yml"
+  ],
+  "outputs": [
+    "gumgum-image-api-openapi.yml",
+    "gumgum-intravideo-api-openapi.yml",
+    "gumgum-page-api-openapi.yml",
+    "gumgum-text-api-openapi.yml",
+    "gumgum-video-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/gumgum-contextual-api-openapi.yml"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "gumgum-contextual-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: written (+5 apis, 6 total)"
+  ],
+  "skipped": []
+}
