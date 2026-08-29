@@ -1,6 +1,6 @@
-generated: '2026-08-01'
-method: generated
-source: arazzo/*.yml
+x-generated: '2026-08-01'
+x-method: generated
+x-source: arazzo/*.yml
 workflows:
   - file: gumgum-classify-video.yml
     workflowId: classify-video-and-retrieve-result
