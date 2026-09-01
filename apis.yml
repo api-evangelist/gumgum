@@ -35,19 +35,19 @@ created: '2026-08-01'
 modified: '2026-08-01'
 tags:
   - Advertising
-  - adtech
-  - contextual-advertising
-  - brand-safety
+  - AdTech
+  - Contextual Advertising
+  - Brand Safety
   - content-classification
-  - computer-vision
-  - natural-language-processing
-  - video-analysis
-  - image-analysis
-  - connected-tv
-  - header-bidding
-  - programmatic-advertising
+  - Computer-Vision
+  - Natural Language Processing
+  - Video Analysis
+  - Image Analysis
+  - Connected TV
+  - Header Bidding
+  - Programmatic Advertising
   - iab-taxonomy
-  - content-moderation
+  - Content Moderation
 tags_raw:
   - advertising
   - adtech
@@ -77,10 +77,10 @@ apis:
   humanURL: https://docs.prebid.org/dev-docs/bidders/gumgum.html
   baseURL: https://g2.gumgum.com
   tags:
-  - header-bidding
-  - programmatic-advertising
+  - Header Bidding
+  - Programmatic Advertising
   - Advertising
-  - real-time-bidding
+  - Real-Time Bidding
   tags_raw:
   - header-bidding
   - programmatic-advertising
