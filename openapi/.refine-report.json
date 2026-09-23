@@ -1,7 +1,7 @@
 {
   "provider": "gumgum",
   "sources": [
-    "gumgum-contextual-api-openapi.yml"
+    "_ae-authored/gumgum-contextual-api-openapi.yml"
   ],
   "outputs": [
     "gumgum-image-api-openapi.yml",
@@ -10,14 +10,19 @@
     "gumgum-text-api-openapi.yml",
     "gumgum-video-api-openapi.yml"
   ],
-  "archived": [
-    "archived openapi/gumgum-contextual-api-openapi.yml"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (0 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "gumgum-contextual-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "apis.yml register: written (+5 apis, 6 total)"
+    "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "gumgum-image-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gumgum-intravideo-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gumgum-page-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gumgum-text-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gumgum-video-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
