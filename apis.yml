@@ -52,7 +52,7 @@ tags:
   - Contextual Advertising
   - Brand Safety
   - content-classification
-  - Computer-Vision
+  - Computer Vision
   - Natural Language Processing
   - Video Analysis
   - Image Analysis
@@ -76,6 +76,7 @@ tags_raw:
   - programmatic-advertising
   - iab-taxonomy
   - content-moderation
+  - Computer-Vision
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
