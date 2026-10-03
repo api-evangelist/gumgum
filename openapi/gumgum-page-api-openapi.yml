@@ -70,6 +70,15 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    PageClassification:
+      allOf:
+      - $ref: '#/components/schemas/Classification'
+      - type: object
+        properties:
+          pageUrl:
+            type: string
+            format: uri
+            description: The analyzed page URL.
     Error:
       type: object
       description: Error envelope observed on the production host on 2026-08-01 — for example {"message":"Forbidden"} for an unauthenticated call to a real path and {"message":"Missing Authentication Token"} for an unmatched path.
@@ -105,15 +114,6 @@ components:
           description: Detected language identifier.
         verityData:
           $ref: '#/components/schemas/VerityData'
-    PageClassification:
-      allOf:
-      - $ref: '#/components/schemas/Classification'
-      - type: object
-        properties:
-          pageUrl:
-            type: string
-            format: uri
-            description: The analyzed page URL.
     VerityData:
       type: object
       description: The contextual analysis payload returned by every GumGum Contextual surface.
