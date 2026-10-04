@@ -70,15 +70,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    PageClassification:
-      allOf:
-      - $ref: '#/components/schemas/Classification'
-      - type: object
-        properties:
-          pageUrl:
-            type: string
-            format: uri
-            description: The analyzed page URL.
     Error:
       type: object
       description: Error envelope observed on the production host on 2026-08-01 — for example {"message":"Forbidden"} for an unauthenticated call to a real path and {"message":"Missing Authentication Token"} for an unmatched path.
@@ -88,32 +79,6 @@ components:
           description: Human-readable error message.
       required:
       - message
-    Classification:
-      type: object
-      description: Completed classification result. The response body format is Content-Type application/json; charset=UTF-8.
-      properties:
-        dataAvailable:
-          type: boolean
-          description: Whether the analysis is complete and verityData is populated.
-        status:
-          type: string
-          description: Request status, for example INITIATED or PROCESSED.
-        uuid:
-          type: string
-          description: Unique identifier for this classification.
-        processedAt:
-          type: string
-          format: date-time
-          description: Timestamp of processing completion.
-        expiresAt:
-          type: string
-          format: date-time
-          description: Timestamp at which the stored result expires.
-        languageCode:
-          type: string
-          description: Detected language identifier.
-        verityData:
-          $ref: '#/components/schemas/VerityData'
     VerityData:
       type: object
       description: The contextual analysis payload returned by every GumGum Contextual surface.
@@ -160,6 +125,41 @@ components:
           description: Emotional tone analysis of the analyzed content.
           items:
             type: object
+    PageClassification:
+      allOf:
+      - $ref: '#/components/schemas/Classification'
+      - type: object
+        properties:
+          pageUrl:
+            type: string
+            format: uri
+            description: The analyzed page URL.
+    Classification:
+      type: object
+      description: Completed classification result. The response body format is Content-Type application/json; charset=UTF-8.
+      properties:
+        dataAvailable:
+          type: boolean
+          description: Whether the analysis is complete and verityData is populated.
+        status:
+          type: string
+          description: Request status, for example INITIATED or PROCESSED.
+        uuid:
+          type: string
+          description: Unique identifier for this classification.
+        processedAt:
+          type: string
+          format: date-time
+          description: Timestamp of processing completion.
+        expiresAt:
+          type: string
+          format: date-time
+          description: Timestamp at which the stored result expires.
+        languageCode:
+          type: string
+          description: Detected language identifier.
+        verityData:
+          $ref: '#/components/schemas/VerityData'
   securitySchemes:
     apiKeyHeader:
       type: apiKey
