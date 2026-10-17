@@ -70,15 +70,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    Error:
-      type: object
-      description: Error envelope observed on the production host on 2026-08-01 — for example {"message":"Forbidden"} for an unauthenticated call to a real path and {"message":"Missing Authentication Token"} for an unmatched path.
-      properties:
-        message:
-          type: string
-          description: Human-readable error message.
-      required:
-      - message
     VerityData:
       type: object
       description: The contextual analysis payload returned by every GumGum Contextual surface.
@@ -125,15 +116,6 @@ components:
           description: Emotional tone analysis of the analyzed content.
           items:
             type: object
-    PageClassification:
-      allOf:
-      - $ref: '#/components/schemas/Classification'
-      - type: object
-        properties:
-          pageUrl:
-            type: string
-            format: uri
-            description: The analyzed page URL.
     Classification:
       type: object
       description: Completed classification result. The response body format is Content-Type application/json; charset=UTF-8.
@@ -160,6 +142,24 @@ components:
           description: Detected language identifier.
         verityData:
           $ref: '#/components/schemas/VerityData'
+    Error:
+      type: object
+      description: Error envelope observed on the production host on 2026-08-01 — for example {"message":"Forbidden"} for an unauthenticated call to a real path and {"message":"Missing Authentication Token"} for an unmatched path.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+      required:
+      - message
+    PageClassification:
+      allOf:
+      - $ref: '#/components/schemas/Classification'
+      - type: object
+        properties:
+          pageUrl:
+            type: string
+            format: uri
+            description: The analyzed page URL.
   securitySchemes:
     apiKeyHeader:
       type: apiKey
